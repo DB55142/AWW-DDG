@@ -28,13 +28,13 @@ public class PlayerBulletManager : MonoBehaviour
     //Additional Functions
     async void DeleteBullet()
     {
-        await Task.Delay(2000);
 
         if (gameObject == true)
         {
+            await Task.Delay(2000);
             Destroy(gameObject);
         }
-
+        
         else
         {
             return;

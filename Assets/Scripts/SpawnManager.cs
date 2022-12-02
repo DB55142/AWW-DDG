@@ -12,11 +12,13 @@ public class SpawnManager : MonoBehaviour
 
     private bool gunReady = true;
 
+    PlayerController playerController;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -24,8 +26,8 @@ public class SpawnManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true)
         {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerGunProjectile.transform.rotation);
-            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerGunProjectile.transform.rotation);
+            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGun.transform.rotation);
+            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGun.transform.rotation);
             gunReady = false;
             MakeGunReady();
         }
