@@ -147,12 +147,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Keypad4))
         {
-            playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+            playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
         }
 
         else if (Input.GetKey(KeyCode.Keypad6))
         {
-            playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
+            playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
         }
 
     }
