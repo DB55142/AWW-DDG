@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI speedTitle;
     public TextMeshProUGUI speedIndicator;
+    public TextMeshProUGUI courseRepeater;
     public Scrollbar rudderAngleIndicator;
 
     private string[] presetSpeeds = new string[] { "-15kts", "-10kts", "-5kts", "0kts", "5kts", "10kts", "15kts", "20kts", "25kts", "30kts" };
@@ -30,8 +32,8 @@ public class PlayerController : MonoBehaviour
 
 
     public ParticleSystem playerWake;
-    
 
+    public GameObject gyroObject;
 
     // Start is called before the first frame update
     void Start()
@@ -91,6 +93,26 @@ public class PlayerController : MonoBehaviour
 
         rudderAngleIndicator.value = rudderAngleIndicatorValue[rudderAngleSelected];
 
+        
+        if (transform.rotation.eulerAngles.y < 10.0f)
+        {
+            courseRepeater.text = "00" + Convert.ToString(Math.Round(transform.rotation.eulerAngles.y, 1)) + "°";
+        }
+
+        else if (transform.rotation.eulerAngles.y >= 10.0f && transform.rotation.eulerAngles.y < 100.0f)
+        {
+            courseRepeater.text = "0" + Convert.ToString(Math.Round(transform.rotation.eulerAngles.y, 1)) + "°";
+        }
+
+        else if (transform.rotation.eulerAngles.y >= 100.0f)
+        {
+            courseRepeater.text = Convert.ToString(Math.Round(transform.rotation.eulerAngles.y, 1)) + "°";
+        }
+
+
+
+
+
         if (rudderAngleIndicator.value < 0.5f)
         {
             rudderAngleIndicator.image.color = Color.red;
@@ -114,10 +136,6 @@ public class PlayerController : MonoBehaviour
         var wake = playerWake.velocityOverLifetime;
         wake.z = presetSpeedWake[presetSelected];
         playerWake.startLifetime = presetSpeedWakeLife[presetSelected];
-
-
-
-
 
     }
 }
