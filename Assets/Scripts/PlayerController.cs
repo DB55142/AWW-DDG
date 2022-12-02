@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float rotateSpeed;
 
-    Rigidbody rigidBody;
+    public GameObject playerHull;
+    public Rigidbody playerHullRigidBody;
 
     public TextMeshProUGUI speedTitle;
     public TextMeshProUGUI speedIndicator;
@@ -33,17 +34,21 @@ public class PlayerController : MonoBehaviour
 
     public ParticleSystem playerWake;
 
-    public GameObject gyroObject;
+    public GameObject playerGun;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+  
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        
        
         if (Input.GetKeyUp(KeyCode.W))
         {
@@ -128,14 +133,27 @@ public class PlayerController : MonoBehaviour
             rudderAngleIndicator.image.color = Color.black;
         }
 
-        rigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
+       playerHullRigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
 
-        rigidBody.transform.Rotate(Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]);
+        playerHullRigidBody.transform.Rotate(Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]);
 
-        
+
+
+
         var wake = playerWake.velocityOverLifetime;
         wake.z = presetSpeedWake[presetSelected];
         playerWake.startLifetime = presetSpeedWakeLife[presetSelected];
+
+
+        if (Input.GetKey(KeyCode.Keypad4))
+        {
+            playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+        }
+
+        else if (Input.GetKey(KeyCode.Keypad6))
+        {
+            playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
+        }
 
     }
 }
