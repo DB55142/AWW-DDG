@@ -5492,9 +5492,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887726617}
   serializedVersion: 2
-  m_Mass: 0.5
+  m_Mass: 5
   m_Drag: 0
-  m_AngularDrag: 50000
+  m_AngularDrag: 500000000
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -5804,27 +5804,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.13386035
+      value: 3.2147903
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.13386035
+      value: 3.2147903
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.13386035
+      value: 3.2147903
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.99
+      value: 24.926
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.37
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.94
+      value: 55.554
       objectReference: {fileID: 0}
     - target: {fileID: 4618546184181590, guid: 74d0740f4abc7e54fab50d33af2582da, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5993,6 +5993,7 @@ GameObject:
   - component: {fileID: 1920539874}
   - component: {fileID: 1920539873}
   - component: {fileID: 1920539872}
+  - component: {fileID: 1920539876}
   m_Layer: 0
   m_Name: Ocean
   m_TagString: Untagged
@@ -6079,6 +6080,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1920539876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920539871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c6a6df342b52d24092cf6bbb590c535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveHeight: 0.5
+  waveFrequency: 0.5
+  waveLength: 0.75
+  waveOriginPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1942576787
 GameObject:
   m_ObjectHideFlags: 0
