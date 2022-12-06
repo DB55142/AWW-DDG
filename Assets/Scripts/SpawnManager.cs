@@ -26,8 +26,8 @@ public class SpawnManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true)
         {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGun.transform.rotation);
-            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGun.transform.rotation);
+            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
             gunReady = false;
             MakeGunReady();
         }

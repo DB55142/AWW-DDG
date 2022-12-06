@@ -6,6 +6,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,34 +23,41 @@ public class PlayerController : MonoBehaviour
     public Scrollbar rudderAngleIndicator;
 
     private string[] presetSpeeds = new string[] { "-15kts", "-10kts", "-5kts", "0kts", "5kts", "10kts", "15kts", "20kts", "25kts", "30kts" };
-    private float[] presetSpeedActual = new float[] { -5.95f, -5.94f, -5.9f, 0.0f, 5.9f, 5.94f, 5.95f, 6.0f, 6.2f, 6.5f };
+    private float[] presetSpeedActual = new float[] { -75000f, -50000f, -25000f, 0.0f, 25000f, 50000f, 75000f, 140000f, 160000f, 200000 };
     private float[] presetSpeedWake = new float[] { -2.5f, -1.0f, -0.5f, 0.0f, 0.5f, 1.0f, 2.5f, 4.0f, 5.0f, 8.0f };
     private float[] presetSpeedWakeLife = new float[] { 3, 2, 1, 0.01f, 1, 2, 3, 4, 5, 7 };
     private float[] rudderResistance = new float[] { -0.4f, -0.2f, -0.1f, 0.0f, 0.1f, 0.25f, 0.3f, 0.55f, 0.75f, 1.0f };
     private float[] rudderInput = new float[] { -40.0f, -20.0f, -10.0f, 0.0f, 10.0f, 20.0f, 40.0f };
     private float[] rudderAngleIndicatorValue = new float[] { 0.0f, 0.212f, 0.424f, 0.50f, 0.576f, 0.788f, 1.0f };
+    private float[] shipHeelAngle = new float[] { -15.0f, -10.0f, -3.0f, 0, 3.0f, 10.0f, 15.0f };
     private int presetSelected = 3;
     private int rudderAngleSelected = 3;
+
+    public float buoyancyWaterline;
 
 
     public ParticleSystem playerWake;
 
     public GameObject playerGun;
 
+    public GameObject playerGunVertical;
+
+    private GameObject ocean;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
-  
+        ocean = GameObject.Find("Ocean");
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
        
+
+
         if (Input.GetKeyUp(KeyCode.W))
         {
             if (presetSelected < presetSpeedActual.Length - 1)
@@ -135,9 +143,7 @@ public class PlayerController : MonoBehaviour
 
        playerHullRigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
 
-        playerHullRigidBody.transform.Rotate(Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]);
-
-
+       playerHullRigidBody.transform.Rotate((Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected])/6);
 
 
         var wake = playerWake.velocityOverLifetime;
@@ -155,5 +161,19 @@ public class PlayerController : MonoBehaviour
             playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
         }
 
+        else if (Input.GetKey(KeyCode.Keypad8))
+        {
+            playerGunVertical.transform.Rotate(Vector3.left * Time.deltaTime * rotateSpeed);
+        }
+
+        else if (Input.GetKey(KeyCode.Keypad2))
+        {
+            playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
+        }
+
+
+        playerWake.transform.position = new Vector3(playerWake.transform.position.x, ocean.transform.position.y + .001f, playerWake.transform.position.z);
+
+        playerHull.transform.position = new Vector3(playerHull.transform.position.x, buoyancyWaterline, playerHull.transform.position.z);
     }
 }
