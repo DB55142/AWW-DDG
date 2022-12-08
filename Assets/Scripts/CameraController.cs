@@ -9,8 +9,11 @@ public class CameraController : MonoBehaviour
 {
     //Class Variables
     public Camera mainCamera;
+    public Camera gunCamera;
     private Vector2 turnCamera;
     public float sensitivity;
+
+    PlayerController playerController;
 
     GameObject playerShip;
 
@@ -19,7 +22,10 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerController= GameObject.Find("Player").GetComponent<PlayerController>();
         playerShip = GameObject.Find("Player");
+        mainCamera.enabled = true;
+        gunCamera.enabled = true;
         
     }
 
@@ -49,5 +55,18 @@ public class CameraController : MonoBehaviour
             
         }
 
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            mainCamera.gameObject.SetActive(true);
+            gunCamera.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2) && playerController.playerGunManual == true)
+        {
+            mainCamera.gameObject.SetActive(false);
+            gunCamera.gameObject.SetActive(true);
+
+        }
     }
 }

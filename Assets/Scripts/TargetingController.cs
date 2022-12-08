@@ -26,6 +26,7 @@ public class TargetingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Ray startPoint = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
@@ -43,17 +44,10 @@ public class TargetingController : MonoBehaviour
             direction = targetCoords - playerController.playerGun.transform.position;
             Quaternion gunTrain = Quaternion.LookRotation(direction);
             Quaternion gunTargetFinal = new Quaternion(0, gunTrain.y, 0, playerController.playerGun.transform.rotation.w);
+            Quaternion gunTargetFinalVertical = new Quaternion(gunTrain.x, gunTrain.y, 0, playerController.playerGunVertical.transform.rotation.w);
             Quaternion startRot = new Quaternion(0, 0, 0, 0);
             playerController.playerGun.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinal, 0.01f);
-
-            
+            playerController.playerGunVertical.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinalVertical, 0.01f);
         }
-
-        
-
-
-
-
-
     }
 }
