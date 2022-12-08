@@ -1,0 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TargetingController : MonoBehaviour
+{
+    //Class Variables
+    public Camera mainCamera;
+    public GameObject targetLock;
+    private GameObject targetShip;
+
+    PlayerController playerController;
+
+    private Vector3 targetCoords;
+    private Vector3 direction;
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Ray startPoint = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
+        {
+            if (target.collider.gameObject.tag == "EnemyShip")
+            {
+                Instantiate(targetLock,target.transform.position, targetLock.transform.rotation );
+                targetCoords = target.transform.position;
+                targetShip = target.collider.gameObject;
+            }
+        }
+
+        if (playerController.playerGunManual == false && targetShip != null)
+        {
+            direction = targetCoords - playerController.playerGun.transform.position;
+            Quaternion gunTrain = Quaternion.LookRotation(direction);
+            Quaternion gunTargetFinal = new Quaternion(0, gunTrain.y, 0, playerController.playerGun.transform.rotation.w);
+            Quaternion startRot = new Quaternion(0, 0, 0, 0);
+            playerController.playerGun.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinal, 0.01f);
+
+            
+        }
+
+        
+
+
+
+
+
+    }
+}

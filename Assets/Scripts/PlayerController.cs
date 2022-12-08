@@ -40,16 +40,23 @@ public class PlayerController : MonoBehaviour
 
     public GameObject playerGun;
 
+
     public GameObject playerGunVertical;
 
     private GameObject ocean;
 
-    
+    public bool playerGunManual = false;
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         ocean = GameObject.Find("Ocean");
+        
+
     }
 
     // Update is called once per frame
@@ -150,30 +157,49 @@ public class PlayerController : MonoBehaviour
         wake.z = presetSpeedWake[presetSelected];
         playerWake.startLifetime = presetSpeedWakeLife[presetSelected];
 
-
-        if (Input.GetKey(KeyCode.Keypad4))
+        if (Input.GetKeyUp(KeyCode.KeypadEnter))
         {
-            playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
+            if (playerGunManual == false)
+            {
+                playerGunManual = true;
+            }
+
+            else
+            {
+                playerGunManual = false;
+            }
         }
 
-        else if (Input.GetKey(KeyCode.Keypad6))
+
+
+        if (playerGunManual == true)
         {
-            playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+            if (Input.GetKey(KeyCode.Keypad4))
+            {
+                playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad6))
+            {
+                playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad8))
+            {
+                playerGunVertical.transform.Rotate(Vector3.left * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad2))
+            {
+                playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
+            }
         }
 
-        else if (Input.GetKey(KeyCode.Keypad8))
-        {
-            playerGunVertical.transform.Rotate(Vector3.left * Time.deltaTime * rotateSpeed);
-        }
-
-        else if (Input.GetKey(KeyCode.Keypad2))
-        {
-            playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
-        }
 
 
         playerWake.transform.position = new Vector3(playerWake.transform.position.x, ocean.transform.position.y + .001f, playerWake.transform.position.z);
 
         playerHull.transform.position = new Vector3(playerHull.transform.position.x, buoyancyWaterline, playerHull.transform.position.z);
+
     }
 }
