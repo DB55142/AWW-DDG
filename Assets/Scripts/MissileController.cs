@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MissileController : MonoBehaviour
@@ -11,6 +12,10 @@ public class MissileController : MonoBehaviour
     public GameObject missileLauncher4;
     public GameObject missileLauncher5;
     public GameObject missileLauncher6;
+
+    public GameObject missileLaunchPoint1;
+
+    public GameObject missileProjectile;
 
     Quaternion OpenFwd;
     Quaternion OpenAft;
@@ -32,7 +37,9 @@ public class MissileController : MonoBehaviour
         {
             if (missileLauncher1.transform.rotation != OpenFwd )
             {
-                missileLauncher1.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenFwd, 1.0f); ;
+                missileLauncher1.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenFwd, 1.0f);
+                LaunchMissile();
+                
             }
 
             else
@@ -105,5 +112,15 @@ public class MissileController : MonoBehaviour
                 missileLauncher6.transform.rotation = Close;
             }
         }
+    }
+
+    //Additional Functions
+
+    async void LaunchMissile()
+    {
+        await Task.Delay(200);
+        Instantiate(missileProjectile, missileLaunchPoint1.transform.position, missileProjectile.transform.rotation);
+        await Task.Delay(1500);
+        missileLauncher1.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, Close, 0.5f).normalized;
     }
 }

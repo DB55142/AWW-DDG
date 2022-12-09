@@ -11,7 +11,7 @@ public class TargetingController : MonoBehaviour
 
     PlayerController playerController;
 
-    private Vector3 targetCoords;
+    public Vector3 targetCoords;
     private Vector3 direction;
 
 
@@ -49,5 +49,9 @@ public class TargetingController : MonoBehaviour
             playerController.playerGun.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinal, 0.01f);
             playerController.playerGunVertical.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinalVertical, 0.01f);
         }
+
+
+
+
     }
 }
