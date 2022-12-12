@@ -14,12 +14,18 @@ public class MissileController : MonoBehaviour
     public GameObject missileLauncher6;
 
     public GameObject missileLaunchPoint1;
+    public GameObject missileLaunchPoint2;
+    public GameObject missileLaunchPoint3;
+    public GameObject missileLaunchPoint4;
+    public GameObject missileLaunchPoint5;
+    public GameObject missileLaunchPoint6;
 
     public GameObject missileProjectile;
 
     Quaternion OpenFwd;
     Quaternion OpenAft;
-    Quaternion Close = new Quaternion(0, 0, 0, 0);
+    Quaternion Close;
+    Quaternion missileStartPos;
 
     
 
@@ -28,6 +34,8 @@ public class MissileController : MonoBehaviour
     {
         OpenFwd = Quaternion.Euler(90, 0, 0);
         OpenAft = Quaternion.Euler(-90, 0, 0);
+        Close = Quaternion.Euler(0, 0, 0);
+        missileStartPos = Quaternion.Euler(-90, 0, 0);
     }
 
     // Update is called once per frame
@@ -37,90 +45,94 @@ public class MissileController : MonoBehaviour
         {
             if (missileLauncher1.transform.rotation != OpenFwd )
             {
-                missileLauncher1.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenFwd, 1.0f);
-                LaunchMissile();
-                
+                LaunchMissile(missileLaunchPoint1, missileLauncher1, OpenFwd);
             }
 
             else
             {
-                missileLauncher1.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher1);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            if (missileLauncher2.transform.rotation != OpenFwd)
+            if (missileLauncher1.transform.rotation != OpenFwd)
             {
-                missileLauncher2.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenFwd, 1.0f); ;
+                LaunchMissile(missileLaunchPoint2, missileLauncher2, OpenFwd);
             }
 
             else
             {
-                missileLauncher2.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher2);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Insert))
         {
-            if (missileLauncher3.transform.rotation != OpenFwd)
+            if (missileLauncher1.transform.rotation != OpenFwd)
             {
-                missileLauncher3.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenFwd, 1.0f); ;
+                LaunchMissile(missileLaunchPoint3, missileLauncher3, OpenFwd);
             }
 
             else
             {
-                missileLauncher3.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher3);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.PageDown))
         {
-            if (missileLauncher4.transform.rotation != OpenAft)
+            if (missileLauncher1.transform.rotation != OpenAft)
             {
-                missileLauncher4.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenAft, 1.0f); ;
+                LaunchMissile(missileLaunchPoint4, missileLauncher4, OpenAft);
             }
 
             else
             {
-                missileLauncher4.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher4);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.End))
         {
-            if (missileLauncher5.transform.rotation != OpenAft)
+            if (missileLauncher1.transform.rotation != OpenAft)
             {
-                missileLauncher5.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenAft, 1.0f); ;
+                LaunchMissile(missileLaunchPoint5, missileLauncher5, OpenAft);
             }
 
             else
             {
-                missileLauncher5.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher5);
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Delete))
         {
-            if (missileLauncher6.transform.rotation != OpenAft)
+            if (missileLauncher1.transform.rotation != OpenAft)
             {
-                missileLauncher6.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, OpenAft, 1.0f); ;
+                LaunchMissile(missileLaunchPoint6, missileLauncher6, OpenAft);
             }
 
             else
             {
-                missileLauncher6.transform.rotation = Close;
+                CloseMissileHatch(missileLauncher6);
             }
         }
     }
 
     //Additional Functions
 
-    async void LaunchMissile()
+    async void LaunchMissile(GameObject missileLaunchPoint, GameObject missileLaunchHatch, Quaternion OpenAngle)
     {
+        missileLaunchHatch.transform.rotation = Quaternion.Lerp(missileLaunchHatch.transform.rotation, OpenAngle, 1.0f);
         await Task.Delay(200);
-        Instantiate(missileProjectile, missileLaunchPoint1.transform.position, missileProjectile.transform.rotation);
+        Instantiate(missileProjectile, missileLaunchPoint.transform.position, missileStartPos);
         await Task.Delay(1500);
-        missileLauncher1.transform.rotation = Quaternion.Lerp(missileLauncher1.transform.rotation, Close, 0.5f).normalized;
+        missileLaunchHatch.transform.rotation = Quaternion.Lerp(missileLaunchHatch.transform.rotation, Close, 1.0f);
+    }
+
+    void CloseMissileHatch(GameObject missileLaunchHatch)
+    {
+        missileLauncher1.transform.rotation = Close;
     }
 }

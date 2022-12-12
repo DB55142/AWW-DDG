@@ -14,6 +14,9 @@ public class SpawnManager : MonoBehaviour
 
     PlayerController playerController;
 
+    public GameObject enemySpawnPt;
+    public GameObject enemyMissile;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,11 @@ public class SpawnManager : MonoBehaviour
             Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
             gunReady = false;
             MakeGunReady();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Backspace))
+        {
+            Instantiate(enemyMissile, enemySpawnPt.transform.position, enemyMissile.transform.rotation);
         }
     }
 

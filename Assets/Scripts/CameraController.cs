@@ -10,10 +10,12 @@ public class CameraController : MonoBehaviour
     //Class Variables
     public Camera mainCamera;
     public Camera gunCamera;
+    public Camera ciwsCamera;
     private Vector2 turnCamera;
     public float sensitivity;
 
     PlayerController playerController;
+    CIWSController ciwsController;
 
     GameObject playerShip;
 
@@ -23,9 +25,11 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         playerController= GameObject.Find("Player").GetComponent<PlayerController>();
+        ciwsController = GameObject.Find ("CIWSBody").GetComponent<CIWSController>();
         playerShip = GameObject.Find("Player");
         mainCamera.enabled = true;
         gunCamera.enabled = true;
+        ciwsCamera.enabled = true;
         
     }
 
@@ -60,13 +64,21 @@ public class CameraController : MonoBehaviour
         {
             mainCamera.gameObject.SetActive(true);
             gunCamera.gameObject.SetActive(false);
+            ciwsCamera.gameObject.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.F2) && playerController.playerGunManual == true)
         {
             mainCamera.gameObject.SetActive(false);
             gunCamera.gameObject.SetActive(true);
+            ciwsCamera.gameObject.SetActive(false);
+        }
 
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            mainCamera.gameObject.SetActive(false);
+            gunCamera.gameObject.SetActive(false);
+            ciwsCamera.gameObject.SetActive(true);
         }
     }
 }

@@ -48,7 +48,7 @@ public class MissileManager : MonoBehaviour
             Quaternion rotateMissile = Quaternion.LookRotation(direction);
             Quaternion rotateMissileFinal = Quaternion.Euler(targetingController.targetCoords - transform.position);
             transform.rotation = Quaternion.LookRotation(targetingController.targetCoords - localRocketTrans.position);
-            //missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * 250, ForceMode.Impulse);
+            missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * 250, ForceMode.Impulse);
             Debug.Log("Fire!");
         }
 
@@ -59,7 +59,7 @@ public class MissileManager : MonoBehaviour
     {
         missileRb.AddForce(Vector3.up * Time.deltaTime * speed, ForceMode.Impulse);
 
-        await Task.Delay(1000);
+        await Task.Delay(800);
         missileArmed = true;
         
     }

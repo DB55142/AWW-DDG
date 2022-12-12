@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnemyShip
   - FriendlyShip
+  - EnemyMissile
   layers:
   - Default
   - TransparentFX
