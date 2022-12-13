@@ -31,7 +31,7 @@ public class TargetingController : MonoBehaviour
 
         if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
         {
-            if (target.collider.gameObject.tag == "EnemyShip")
+            if (target.collider.gameObject.tag != "Player" && target.collider.gameObject.tag != "Ocean")
             {
                 Instantiate(targetLock,target.transform.position, targetLock.transform.rotation );
                 targetCoords = target.transform.position;

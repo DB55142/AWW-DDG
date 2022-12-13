@@ -10,6 +10,7 @@ public class CIWSController : MonoBehaviour
 {
     //Class Variables
     private GameObject target;
+    public GameObject firingPoint;
     bool tracking = false;
 
     PlayerController playerController;
@@ -22,6 +23,10 @@ public class CIWSController : MonoBehaviour
 
     bool firing = false;
 
+    bool autoMode = false;
+
+    bool safeToFire = false;
+
 
 
     // Start is called before the first frame update
@@ -30,47 +35,84 @@ public class CIWSController : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         InvokeRepeating("TargetCheck", 0.0f, 0.5f);
+ 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        TrackTarget();
-
-        if (Input.GetKey(KeyCode.LeftArrow))
+        Ray ray = new Ray(firingPoint.transform.position, transform.forward);
+        Debug.DrawRay(firingPoint.transform.position, transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit unintended))
         {
-            transform.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
-        }
-
-        if (Input.GetKey(KeyCode.M))
-        {
-            if (!bullets.isPlaying)
+            if (unintended.collider.gameObject.tag != "Enemy")
             {
-                bullets.Play();
+                safeToFire = false;
+            }
+
+            else if (unintended.collider.gameObject.tag == "Enemy")
+            {
+                Debug.Log(unintended.collider.gameObject.name);
+                safeToFire = true;
+            }
+            
+        }
+
+        if (autoMode == true)
+        {
+            TrackTarget();
+        }
+
+        if (autoMode == false)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
+            }
+
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                transform.Rotate(Vector3.left * Time.deltaTime * rotationSpeed);
+            }
+
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
+            }
+
+            if (Input.GetKey(KeyCode.M))
+            {
+                if (!bullets.isPlaying && safeToFire == true)
+                {
+                    bullets.Play();
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.M))
+            {
+                if (bullets.isPlaying)
+                {
+                    bullets.Stop();
+                }
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.M))
+
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
-            if (bullets.isPlaying)
+            if (!autoMode)
             {
-                bullets.Stop();
+                autoMode = true;
+            }
+
+            else
+            {
+                autoMode = false;
             }
         }
     }
@@ -94,7 +136,6 @@ public class CIWSController : MonoBehaviour
                 tracking = false;
             }
         }
-
     }
 
     private void TrackTarget()
@@ -107,7 +148,7 @@ public class CIWSController : MonoBehaviour
             Quaternion ciwsRotation = Quaternion.LookRotation(targetPos - transform.position);
             transform.rotation = Quaternion.Lerp(transform.rotation, ciwsRotation, 0.5f);
 
-            if (!bullets.isPlaying)
+            if (!bullets.isPlaying && safeToFire == true)
             {
                 bullets.Play();
             }

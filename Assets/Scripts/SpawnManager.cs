@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     public GameObject playerGunFiringPoint;
     public GameObject playerGunProjectile;
     public ParticleSystem playerGunGas;
+    public GameObject enemyShipSpawnPoint;
+    public GameObject enemyShip;
 
     private bool gunReady = true;
 
@@ -22,6 +24,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        Instantiate(enemyShip, enemyShipSpawnPoint.transform.position, enemyShip.transform.rotation);
     }
 
     // Update is called once per frame

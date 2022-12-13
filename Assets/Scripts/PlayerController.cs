@@ -47,7 +47,15 @@ public class PlayerController : MonoBehaviour
 
     public bool playerGunManual = false;
 
+    public float buoyancyForce;
 
+    [SerializeField] float rotationSpeed;
+
+    private float draught;
+
+    public GameObject torquePoint;
+
+    public GameObject torquePointForward;
 
 
 
@@ -55,14 +63,18 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ocean = GameObject.Find("Ocean");
-        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        draught = ocean.transform.position.y - playerHullRigidBody.transform.position.y;
+
+        if (playerHullRigidBody.transform.position.y <= ocean.transform.position.y)
+        {
+            playerHullRigidBody.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
+        }
 
 
         if (Input.GetKeyUp(KeyCode.W))
@@ -150,7 +162,9 @@ public class PlayerController : MonoBehaviour
 
        playerHullRigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
 
-       playerHullRigidBody.transform.Rotate((Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected])/6);
+       playerHullRigidBody.transform.Rotate((Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]) * rotationSpeed);
+
+       
 
 
         var wake = playerWake.velocityOverLifetime;
@@ -194,12 +208,5 @@ public class PlayerController : MonoBehaviour
                 playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
             }
         }
-
-
-
-        playerWake.transform.position = new Vector3(playerWake.transform.position.x, ocean.transform.position.y + .001f, playerWake.transform.position.z);
-
-        playerHull.transform.position = new Vector3(playerHull.transform.position.x, buoyancyWaterline, playerHull.transform.position.z);
-
     }
 }
