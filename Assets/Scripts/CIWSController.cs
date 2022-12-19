@@ -27,6 +27,8 @@ public class CIWSController : MonoBehaviour
 
     bool safeToFire = false;
 
+    public GameObject ciwsRadarRange;
+
 
 
     // Start is called before the first frame update
@@ -45,12 +47,12 @@ public class CIWSController : MonoBehaviour
         Debug.DrawRay(firingPoint.transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit unintended))
         {
-            if (unintended.collider.gameObject.tag != "Enemy")
+            if (unintended.collider.gameObject.tag == "Player")
             {
                 safeToFire = false;
             }
 
-            else if (unintended.collider.gameObject.tag == "Enemy")
+            else if (unintended.collider.gameObject.tag != "Player")
             {
                 Debug.Log(unintended.collider.gameObject.name);
                 safeToFire = true;
@@ -85,11 +87,12 @@ public class CIWSController : MonoBehaviour
                 transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
             }
 
-            if (Input.GetKey(KeyCode.M))
+            if (Input.GetKey(KeyCode.Backslash))
             {
                 if (!bullets.isPlaying && safeToFire == true)
                 {
                     bullets.Play();
+                    Debug.Log("Fire");
                 }
             }
 
@@ -98,6 +101,7 @@ public class CIWSController : MonoBehaviour
                 if (bullets.isPlaying)
                 {
                     bullets.Stop();
+                    Debug.Log("No Fire");
                 }
             }
         }
