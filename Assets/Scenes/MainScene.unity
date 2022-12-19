@@ -5368,7 +5368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &184778960
 Transform:
   m_ObjectHideFlags: 0
@@ -5534,7 +5534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &290513512
 Transform:
   m_ObjectHideFlags: 0
@@ -10788,6 +10788,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 834914288, guid: bef479c7f37870a41bdec030ed39b2cf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5740476750159241541, guid: bef479c7f37870a41bdec030ed39b2cf, type: 3}
       propertyPath: m_Name
       value: EnemyFrigate
@@ -11023,7 +11027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &785103195
 Transform:
   m_ObjectHideFlags: 0
@@ -12424,7 +12428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &1815729012
 SphereCollider:
   m_ObjectHideFlags: 0

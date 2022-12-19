@@ -31,7 +31,7 @@ public class PlayerBulletManager : MonoBehaviour
 
         if (gameObject == true)
         {
-            await Task.Delay(2000);
+            await Task.Delay(4000);
             Destroy(gameObject);
         }
         
