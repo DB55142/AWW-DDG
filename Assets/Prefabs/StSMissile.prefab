@@ -5018,9 +5018,10 @@ GameObject:
   - component: {fileID: 5247759519348472764}
   - component: {fileID: 5247759519348472387}
   - component: {fileID: 8681635708918640427}
+  - component: {fileID: 3044543397798524778}
   m_Layer: 0
   m_Name: StSMissile
-  m_TagString: Untagged
+  m_TagString: PlayerMissile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5073,6 +5074,19 @@ MonoBehaviour:
   speed: 75000
   startPos: {x: 0, y: 0, z: 0}
   missileTarget: {x: 0, y: 0, z: 0}
+--- !u!65 &3044543397798524778
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5247759519348472386}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 7.3002167}
+  m_Center: {x: 0, y: 0, z: 0.4436264}
 --- !u!1 &5247759519410053221
 GameObject:
   m_ObjectHideFlags: 0

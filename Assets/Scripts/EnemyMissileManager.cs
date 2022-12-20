@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class EnemyMissileManager : MonoBehaviour
 {
+    //Class Variables
     Rigidbody missileRb;
     int randomSpeed;
+
+    public ParticleSystem missileDestroyedExplosion;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,4 +25,16 @@ public class EnemyMissileManager : MonoBehaviour
     {
         
     }
+
+    //Additional Functions
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "PlayerCIWS")
+        {
+            Vector3 position = transform.position;
+            Destroy(gameObject);
+            Instantiate(missileDestroyedExplosion, position, missileDestroyedExplosion.transform.rotation);
+        }
+    }
+
 }

@@ -11,6 +11,8 @@ TagManager:
   - Ocean
   - FxTemporaire
   - MainGunProjectile
+  - PlayerMissile
+  - PlayerCIWS
   layers:
   - Default
   - TransparentFX

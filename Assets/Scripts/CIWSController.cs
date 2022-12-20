@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
 using static UnityEngine.GraphicsBuffer;
+using System.Threading.Tasks;
 
 public class CIWSController : MonoBehaviour
 {
@@ -19,15 +20,19 @@ public class CIWSController : MonoBehaviour
 
     [SerializeField] private float rotationSpeed;
 
-    public ParticleSystem bullets;
-
     bool firing = false;
 
     bool autoMode = false;
 
+    bool autoFire = false;
+
     bool safeToFire = false;
 
     public GameObject ciwsRadarRange;
+
+    public GameObject ciwsBullet;
+
+    public GameObject ciwsFiringPoint;
 
 
 
@@ -37,6 +42,8 @@ public class CIWSController : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         InvokeRepeating("TargetCheck", 0.0f, 0.5f);
+        
+        InvokeRepeating("FiringRate", 0.0f, 0.1f);
  
     }
 
@@ -44,7 +51,6 @@ public class CIWSController : MonoBehaviour
     void Update()
     {
         Ray ray = new Ray(firingPoint.transform.position, transform.forward);
-        Debug.DrawRay(firingPoint.transform.position, transform.forward);
         if (Physics.Raycast(ray, out RaycastHit unintended))
         {
             if (unintended.collider.gameObject.tag == "Player")
@@ -86,25 +92,16 @@ public class CIWSController : MonoBehaviour
                 transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
             }
 
-            if (Input.GetKey(KeyCode.Backslash))
+            if (Input.GetKeyDown(KeyCode.Backslash))
             {
-                if (!bullets.isPlaying && safeToFire == true)
-                {
-                    bullets.Play();
+                //if (safeToFire == true)
+                //{
+                    Debug.Log("Fire!");
+                    Instantiate(ciwsBullet, ciwsFiringPoint.transform.position, transform.rotation);
 
-                }
-            }
-
-            if (Input.GetKeyUp(KeyCode.M))
-            {
-                if (bullets.isPlaying)
-                {
-                    bullets.Stop();
-
-                }
+                //}
             }
         }
-
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
         {
@@ -145,18 +142,31 @@ public class CIWSController : MonoBehaviour
     {
         if (tracking == true)
         {
-            Debug.Log("tracking");
             Vector3 offsetTarget = new Vector3(Random.Range(-15, 15), Random.Range(-15, 15), Random.Range(-15, 15));
             Vector3 targetPos = target.transform.position - offsetTarget;
             Quaternion ciwsRotation = Quaternion.LookRotation(targetPos - transform.position);
             transform.rotation = Quaternion.Lerp(transform.rotation, ciwsRotation, 0.5f);
 
-            if (!bullets.isPlaying && safeToFire == true)
+            if (safeToFire == true)
             {
-                bullets.Play();
+                autoFire = true;
             }
         }
 
+    }
+
+    private void FiringRate()
+    {
+        if (autoFire == true)
+        {
+            Instantiate(ciwsBullet, ciwsFiringPoint.transform.position, transform.rotation);
+        }
+
+        else
+        {
+            return;
+        }
+        
     }
 
 

@@ -8,6 +8,8 @@ public class EnemyFrigateManager : MonoBehaviour
     //Class Variables
     public ParticleSystem explosion;
 
+    public ParticleSystem missileExplosion;
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,13 +33,12 @@ public class EnemyFrigateManager : MonoBehaviour
             Destroy(collision.gameObject);
 
         }
-    }
 
-    private void OnParticleCollision(GameObject other)
-    {
-        if (other.gameObject.tag == "Player")
+        else if (collision.gameObject.tag == "PlayerMissile")
         {
-            Debug.Log("HitCIWS");
+            Vector3 position = collision.transform.position;
+            Destroy(collision.gameObject);
+            Instantiate(missileExplosion, position, missileExplosion.transform.rotation);
         }
     }
 }
