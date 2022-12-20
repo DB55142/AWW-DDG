@@ -54,7 +54,6 @@ public class CIWSController : MonoBehaviour
 
             else if (unintended.collider.gameObject.tag != "Player")
             {
-                Debug.Log(unintended.collider.gameObject.name);
                 safeToFire = true;
             }
             
@@ -92,7 +91,7 @@ public class CIWSController : MonoBehaviour
                 if (!bullets.isPlaying && safeToFire == true)
                 {
                     bullets.Play();
-                    Debug.Log("Fire");
+
                 }
             }
 
@@ -101,7 +100,7 @@ public class CIWSController : MonoBehaviour
                 if (bullets.isPlaying)
                 {
                     bullets.Stop();
-                    Debug.Log("No Fire");
+
                 }
             }
         }

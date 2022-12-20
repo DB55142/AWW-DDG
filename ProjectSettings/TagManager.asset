@@ -9,6 +9,8 @@ TagManager:
   - EnemyMissile
   - Enemy
   - Ocean
+  - FxTemporaire
+  - MainGunProjectile
   layers:
   - Default
   - TransparentFX
