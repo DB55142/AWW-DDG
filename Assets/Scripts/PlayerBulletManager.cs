@@ -9,6 +9,8 @@ public class PlayerBulletManager : MonoBehaviour
     Rigidbody projectile;
     public float charge;
 
+    public ParticleSystem bulletDestroyed;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,8 @@ public class PlayerBulletManager : MonoBehaviour
         if (gameObject == true)
         {
             await Task.Delay(4000);
+            Vector3 position = transform.position;
+            Instantiate(bulletDestroyed, position, bulletDestroyed.transform.rotation);
             Destroy(gameObject);
         }
         

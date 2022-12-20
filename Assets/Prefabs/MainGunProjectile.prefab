@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charge: 100000
+  bulletDestroyed: {fileID: 8798750646266754991, guid: 949ce8d33491264448eb52517a184db7, type: 3}
 --- !u!96 &286021667724812500
 TrailRenderer:
   serializedVersion: 2

@@ -92,15 +92,19 @@ public class CIWSController : MonoBehaviour
                 transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
             }
 
-            if (Input.GetKeyDown(KeyCode.Backslash))
+            if (Input.GetKey(KeyCode.Backslash))
             {
-                //if (safeToFire == true)
-                //{
-                    Debug.Log("Fire!");
-                    Instantiate(ciwsBullet, ciwsFiringPoint.transform.position, transform.rotation);
-
-                //}
+                if (!autoFire)
+                {
+                    autoFire = true;
+                }
             }
+
+            if (!Input.GetKey(KeyCode.Backslash))
+            {
+                autoFire = false;
+            }
+
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
@@ -110,7 +114,7 @@ public class CIWSController : MonoBehaviour
                 autoMode = true;
             }
 
-            else
+            else 
             {
                 autoMode = false;
             }

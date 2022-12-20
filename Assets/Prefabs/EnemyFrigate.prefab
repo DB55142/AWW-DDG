@@ -5522,8 +5522,8 @@ Rigidbody:
   m_Mass: 3000
   m_Drag: 0.75
   m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -5541,6 +5541,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 8787009213267859713, guid: 2d81ad8fc3c48314fbdf14d554474a2e, type: 3}
   missileExplosion: {fileID: 3133737210156086717, guid: 3ca1e6a435cabb44384842ae1ddecc37, type: 3}
+  ciwsHit: {fileID: 2927378923021612409, guid: 28707f3a3a0c3414091462172bbb3b04, type: 3}
+  health: 100
+  ocean: {fileID: 0}
+  buoyancyForce: 0
 --- !u!65 &236246949858056547
 BoxCollider:
   m_ObjectHideFlags: 0

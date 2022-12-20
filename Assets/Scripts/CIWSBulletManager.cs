@@ -28,7 +28,7 @@ public class CIWSBulletManager : MonoBehaviour
     //Additional Functions
     async private void Timer()
     {
-        await Task.Delay(3000);
+        await Task.Delay(7500);
         Destroy(gameObject);
     }
 

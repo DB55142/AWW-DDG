@@ -5074,6 +5074,7 @@ MonoBehaviour:
   speed: 75000
   startPos: {x: 0, y: 0, z: 0}
   missileTarget: {x: 0, y: 0, z: 0}
+  missileTimeOutExplosion: {fileID: 8798750646266754991, guid: 444761b8072d1174cb8127ef5788b747, type: 3}
 --- !u!65 &3044543397798524778
 BoxCollider:
   m_ObjectHideFlags: 0

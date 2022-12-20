@@ -25,6 +25,8 @@ public class MissileManager : MonoBehaviour
 
     private Transform localRocketTrans;
 
+    public ParticleSystem missileTimeOutExplosion;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,7 @@ public class MissileManager : MonoBehaviour
         shipForce = playerController.playerHullRigidBody.velocity;
         missileRb.AddForce(shipForce, ForceMode.Impulse);
         MissileClimb();
+        TimeOut();
         
     }
 
@@ -49,7 +52,6 @@ public class MissileManager : MonoBehaviour
             Quaternion rotateMissileFinal = Quaternion.Euler(targetingController.targetCoords - transform.position);
             transform.rotation = Quaternion.LookRotation(targetingController.targetCoords - localRocketTrans.position);
             missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * 250, ForceMode.Impulse);
-            Debug.Log("Fire!");
         }
 
     }
@@ -63,6 +65,15 @@ public class MissileManager : MonoBehaviour
         missileArmed = true;
         
     }
+
+    async void TimeOut()
+    {
+        await Task.Delay(18250);
+        Vector3 position = transform.position;
+        Instantiate(missileTimeOutExplosion, position, missileTimeOutExplosion.transform.rotation);
+        Destroy(gameObject);
+    }
+
 
 
 
