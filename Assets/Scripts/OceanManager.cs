@@ -23,30 +23,28 @@ public class OceanManager : MonoBehaviour
     //Additional Functions
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "MainGunProjectile")
+        if (other.gameObject.tag == "MainGunProjectile" || other.gameObject.tag == "EnemyGunProjectile")
         {
             Vector3 position = other.transform.position;
             Instantiate(waterRipple, position, waterRipple.transform.rotation);
-            Destroy(other);
+            Destroy(other.gameObject);
             
         }
 
-        else if (other.gameObject.tag == "PlayerCIWS")
+        else if (other.gameObject.tag == "PlayerCIWS" || other.gameObject.tag == "EnemyCIWS")
         {
             Vector3 position = other.transform.position;
             Instantiate(waterRipple, position, waterRipple.transform.rotation);
-            Destroy(other);
+            Destroy(other.gameObject);
 
         }
 
-        else if (other.gameObject.tag == "PlayerMissile")
+        else if (other.gameObject.tag == "PlayerMissile" || other.gameObject.tag == "EnemyMissile")
         {
             Vector3 position = other.transform.position;
             Instantiate(waterRipple, position, waterRipple.transform.rotation);
-            Destroy(other);
+            Destroy(other.gameObject);
 
         }
     }
-
-
 }

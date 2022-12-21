@@ -108,10 +108,10 @@ GameObject:
   - component: {fileID: 7540299582323337152}
   - component: {fileID: 7540299582323337155}
   - component: {fileID: 7540299582323337154}
-  - component: {fileID: -3628141461650885049}
+  - component: {fileID: -4295186568442455587}
   m_Layer: 0
-  m_Name: CIWSBullet
-  m_TagString: PlayerCIWS
+  m_Name: EnemyCIWSBullet
+  m_TagString: EnemyCIWS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletRb: {fileID: 7540299582323337155}
-  charge: 75000
---- !u!135 &-3628141461650885049
+  charge: 150000
+--- !u!135 &-4295186568442455587
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

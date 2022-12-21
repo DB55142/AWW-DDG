@@ -16,7 +16,7 @@ public class CIWSController : MonoBehaviour
 
     PlayerController playerController;
 
-    [SerializeField] private float detectionRange;
+    public float detectionRange;
 
     [SerializeField] private float rotationSpeed;
 

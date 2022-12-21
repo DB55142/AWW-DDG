@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
 {
@@ -53,17 +54,33 @@ public class PlayerController : MonoBehaviour
 
     private float draught;
 
-    public GameObject torquePoint;
+    public ParticleSystem gunHit;
 
-    public GameObject torquePointForward;
+    public ParticleSystem missileHit;
 
+    public ParticleSystem ciwsHit;
 
+    private float health = 100;
+
+    private float gunImpact = 20.0f;
+
+    private float missileImpact = 35.0f;
+
+    private float ciwsImpact = 10.0f;
+
+    public GameObject explosionpt1;
+    public GameObject explosionpt2;
+    public GameObject explosionpt3;
+    public GameObject explosionpt4;
+    public GameObject explosionpt5;
+    public GameObject explosionpt6;
+
+    public ParticleSystem destructionExplosion;
 
     // Start is called before the first frame update
     void Start()
     {
         ocean = GameObject.Find("Ocean");
-
     }
 
     // Update is called once per frame
@@ -207,6 +224,67 @@ public class PlayerController : MonoBehaviour
             {
                 playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
             }
+        }
+    }
+
+    //Additional Functions
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "EnemyGunProjectile")
+        {
+            Vector3 position = collision.transform.position;
+            Instantiate(gunHit, position, gunHit.transform.rotation);
+            Destroy(collision.gameObject);
+            health -= gunImpact;
+
+            if (health < 1.0f)
+            {
+                DestructionExplosions();
+            }
+        }
+
+        if (collision.gameObject.tag == "EnemyMissile")
+        {
+            Vector3 position = collision.transform.position;
+            Instantiate(missileHit, position, missileHit.transform.rotation);
+            Destroy(collision.gameObject);
+            health -= missileImpact;
+
+            if (health < 1.0f)
+            {
+                DestructionExplosions();
+            }
+        }
+
+        if (collision.gameObject.tag == "EnemyCIWS")
+        {
+            Vector3 position = collision.transform.position;
+            Instantiate(ciwsHit, position, ciwsHit.transform.rotation);
+            Destroy(collision.gameObject);
+            health -= ciwsImpact;
+
+            if (health < 1.0f)
+            {
+                DestructionExplosions();
+            }
+        }
+    }
+
+    async private void DestructionExplosions()
+    {
+        if (health < 1.0f)
+        {
+            Instantiate(destructionExplosion, explosionpt1.transform.position, destructionExplosion.transform.rotation);
+            Instantiate(destructionExplosion, explosionpt2.transform.position, destructionExplosion.transform.rotation);
+            Instantiate(destructionExplosion, explosionpt3.transform.position, destructionExplosion.transform.rotation);
+            Instantiate(destructionExplosion, explosionpt4.transform.position, destructionExplosion.transform.rotation);
+            Instantiate(destructionExplosion, explosionpt5.transform.position, destructionExplosion.transform.rotation);
+            Instantiate(destructionExplosion, explosionpt6.transform.position, destructionExplosion.transform.rotation);
+
+            buoyancyForce = 0;
+
+            await Task.Delay(5000);
+            Destroy(gameObject);
         }
     }
 }

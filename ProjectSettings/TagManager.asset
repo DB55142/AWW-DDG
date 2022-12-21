@@ -13,6 +13,8 @@ TagManager:
   - MainGunProjectile
   - PlayerMissile
   - PlayerCIWS
+  - EnemyCIWS
+  - EnemyGunProjectile
   layers:
   - Default
   - TransparentFX

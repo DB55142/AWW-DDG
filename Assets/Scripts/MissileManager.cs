@@ -27,6 +27,8 @@ public class MissileManager : MonoBehaviour
 
     public ParticleSystem missileTimeOutExplosion;
 
+    private Vector3 offSet = new Vector3(0, 20, 0);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +49,7 @@ public class MissileManager : MonoBehaviour
 
         if (missileArmed == true)
         {
-            Vector3 direction = targetingController.targetCoords - localRocketTrans.position;
+            Vector3 direction = (targetingController.targetCoords + offSet) - localRocketTrans.position;
             Quaternion rotateMissile = Quaternion.LookRotation(direction);
             Quaternion rotateMissileFinal = Quaternion.Euler(targetingController.targetCoords - transform.position);
             transform.rotation = Quaternion.LookRotation(targetingController.targetCoords - localRocketTrans.position);
@@ -74,7 +76,14 @@ public class MissileManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "EnemyMissile")
+        {
+            Vector3 position = transform.position;
+            Instantiate(missileTimeOutExplosion, position, missileTimeOutExplosion.transform.rotation);
+        }
+    }
 
 
 }

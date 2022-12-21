@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyFrigateManager : MonoBehaviour
 {
@@ -27,7 +29,7 @@ public class EnemyFrigateManager : MonoBehaviour
 
     private float draught;
 
-    public GameObject ocean;
+    OceanManager oceanManager;
 
     public float buoyancyForce;
 
@@ -41,24 +43,46 @@ public class EnemyFrigateManager : MonoBehaviour
 
     private bool explode = false;
 
+    public GameObject[] missileHatch = new GameObject[3];
+
+    public GameObject[] missileLaunchPt = new GameObject[3];
+
+    PlayerController playerController;
+
+    CIWSController ciwsController;
+
+    private int fire;
+
+    public GameObject missile;
+
+    public float force;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
+        oceanManager = GameObject.Find("Ocean").GetComponent<OceanManager>();
         enemyFrigateRb = GetComponent<Rigidbody>();
+
+        InvokeRepeating("Engage", 1.0f, 2.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        draught = ocean.transform.position.y - enemyFrigateRb.transform.position.y;
+        draught = oceanManager.transform.position.y - enemyFrigateRb.transform.position.y;
 
-        if (enemyFrigateRb.transform.position.y <= ocean.transform.position.y)
+        if (enemyFrigateRb.transform.position.y <= oceanManager.transform.position.y)
         {
             enemyFrigateRb.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
         }
 
-        
+        //enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * force, ForceMode.Impulse);
+
+        fire = Random.Range(0, 2);
+
     }
 
     //Additional Functions
@@ -122,6 +146,26 @@ public class EnemyFrigateManager : MonoBehaviour
 
             await Task.Delay(5000);
             Destroy(gameObject);
+        }
+    }
+
+    async private void Engage()
+    {
+        float range = Vector3.Distance(gameObject.transform.position, playerController.gameObject.transform.position);
+
+        if (range <= 8700 && fire == 1)
+        {
+            int missileBank = Random.Range(0, 3);
+            missileHatch[missileBank].transform.rotation = Quaternion.Euler(90, 0, 0);
+            await Task.Delay(300);
+            Instantiate(missile, missileLaunchPt[missileBank].transform.position, Quaternion.Euler(-90, 0, 0));
+            await Task.Delay(500);
+            missileHatch[missileBank].transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        else
+        {
+            return;
         }
     }
 }
