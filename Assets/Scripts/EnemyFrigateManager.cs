@@ -57,6 +57,22 @@ public class EnemyFrigateManager : MonoBehaviour
 
     public float force;
 
+    public float turningForce;
+
+    public float missileDetectRange = 7000;
+
+    float rangeToPlayer;
+
+    public float[] cardinalPoints = new float[4];
+
+    private int headingWanted;
+
+    private int[] speed = new int[] {0, 15000, 40000, 60000, 100000};
+
+    private string[] speedPreset = new string[] {"Stop", "Slow", "Half", "Standard", "Full"};
+
+    private int speedSelected;
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +81,7 @@ public class EnemyFrigateManager : MonoBehaviour
         ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
         oceanManager = GameObject.Find("Ocean").GetComponent<OceanManager>();
         enemyFrigateRb = GetComponent<Rigidbody>();
+        InvokeRepeating("HeadingGenerator", 0.0f, 5.0f);
 
         InvokeRepeating("Engage", 1.0f, 2.0f);
     }
@@ -79,7 +96,59 @@ public class EnemyFrigateManager : MonoBehaviour
             enemyFrigateRb.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
         }
 
-        //enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * force, ForceMode.Impulse);
+        //maneuvering
+        rangeToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+
+        if (rangeToPlayer > missileDetectRange)
+        {
+            Vector3 direction = playerController.transform.position - transform.position;
+            Quaternion heading = Quaternion.LookRotation(direction);
+
+            if (transform.rotation != heading && transform.position.x < playerController.transform.position.x)
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime * turningForce);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
+            }
+
+            else if (transform.rotation != heading && transform.position.x > playerController.transform.position.x)
+            {
+                transform.Rotate(Vector3.down * Time.deltaTime * turningForce);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
+            }
+
+            else if (transform.rotation != heading && transform.position.x == playerController.transform.position.x && transform.position.z != playerController.transform.position.z)
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime * turningForce);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
+            }
+
+            else if (transform.rotation == heading)
+            {
+                transform.rotation = heading;
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
+            }
+        }
+
+        if (rangeToPlayer <= missileDetectRange)
+        {
+            if (transform.rotation.eulerAngles.y < cardinalPoints[headingWanted])
+            {
+                transform.Rotate(Vector3.up * Time.deltaTime * turningForce);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[3], ForceMode.Impulse);
+            }
+
+            else if (transform.rotation.eulerAngles.y > cardinalPoints[headingWanted])
+            {
+                transform.Rotate(Vector3.down * Time.deltaTime * turningForce);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[3], ForceMode.Impulse);
+            }
+
+            else if (transform.rotation.eulerAngles.y == cardinalPoints[headingWanted])
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, cardinalPoints[headingWanted], transform.rotation.z);
+                enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[3], ForceMode.Impulse);
+            }
+        }
 
         fire = Random.Range(0, 2);
 
@@ -90,7 +159,6 @@ public class EnemyFrigateManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "MainGunProjectile")
         {
-            Debug.Log("Hit");
             Instantiate(explosion, collision.transform.position, explosion.transform.rotation);
             Destroy(collision.gameObject);
             health -= gunHit;
@@ -153,7 +221,7 @@ public class EnemyFrigateManager : MonoBehaviour
     {
         float range = Vector3.Distance(gameObject.transform.position, playerController.gameObject.transform.position);
 
-        if (range <= 8700 && fire == 1)
+        if (range <= missileDetectRange && fire == 1)
         {
             int missileBank = Random.Range(0, 3);
             missileHatch[missileBank].transform.rotation = Quaternion.Euler(90, 0, 0);
@@ -167,5 +235,11 @@ public class EnemyFrigateManager : MonoBehaviour
         {
             return;
         }
+    }
+
+    private void HeadingGenerator()
+    {
+        int headingSelected = Random.Range(0, 4);
+        headingWanted =  headingSelected;
     }
 }

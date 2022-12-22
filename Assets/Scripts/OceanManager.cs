@@ -25,6 +25,7 @@ public class OceanManager : MonoBehaviour
     {
         if (other.gameObject.tag == "MainGunProjectile" || other.gameObject.tag == "EnemyGunProjectile")
         {
+            Debug.Log("In The Water");
             Vector3 position = other.transform.position;
             Instantiate(waterRipple, position, waterRipple.transform.rotation);
             Destroy(other.gameObject);

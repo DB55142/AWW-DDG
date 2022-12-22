@@ -1326,7 +1326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 714428060579611663}
   m_Layer: 0
-  m_Name: PlayerGunFiringPoint
+  m_Name: EnemyGunFiringPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1590,7 +1590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunRange: 1500
-  projectile: {fileID: 254321393887674991, guid: 215f148dca0ee4043b25780a37794b54, type: 3}
+  projectile: {fileID: 254321393887674991, guid: cdbbb9b7b7820df41b4d62b0bdc02f22, type: 3}
   firingPoint: {fileID: 3201719626127927369}
 --- !u!1 &5740458776961834039
 GameObject:
@@ -1743,8 +1743,8 @@ Rigidbody:
   m_GameObject: {fileID: 5740476750159241541}
   serializedVersion: 2
   m_Mass: 3000
-  m_Drag: 0.75
-  m_AngularDrag: 1
+  m_Drag: 0.9
+  m_AngularDrag: 0.9
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1784,6 +1784,14 @@ MonoBehaviour:
   - {fileID: 685472127}
   - {fileID: 1996320575}
   missile: {fileID: 630838060682557814, guid: 0abff428632b99b4a80b9cbdaddb298b, type: 3}
+  force: 25000
+  turningForce: 20
+  missileDetectRange: 7000
+  cardinalPoints:
+  - 0
+  - 90
+  - 180
+  - 270
 --- !u!65 &236246949858056547
 BoxCollider:
   m_ObjectHideFlags: 0
