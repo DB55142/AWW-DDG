@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     public Camera mainCamera;
     public Camera gunCamera;
     public Camera ciwsCamera;
+    public Camera radarCamera;
     private Vector2 turnCamera;
     public float sensitivity;
 
@@ -30,7 +31,12 @@ public class CameraController : MonoBehaviour
         mainCamera.enabled = true;
         gunCamera.enabled = true;
         ciwsCamera.enabled = true;
-        
+        radarCamera.enabled = true;
+        mainCamera.gameObject.SetActive(true);
+        gunCamera.gameObject.SetActive(false);
+        ciwsCamera.gameObject.SetActive(false);
+        radarCamera.gameObject.SetActive(true);
+
     }
 
     // Update is called once per frame

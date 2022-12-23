@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RadarController : MonoBehaviour
 {
@@ -17,11 +18,20 @@ public class RadarController : MonoBehaviour
 
     private Camera radarCamera;
 
+    public Button shortRangeButton;
+
+    public Button mediumRangeButton;
+
+    public Button longRangeButton;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         radarCamera = GetComponent<Camera>();
-        radarCamera.enabled = true;
+        rangeScale = shortRange;
+
     }
 
     // Update is called once per frame
@@ -42,6 +52,27 @@ public class RadarController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Print))
         {
             rangeScale = shortRange;
+        }
+
+        if (rangeScale == shortRange)
+        {
+            shortRangeButton.image.color = Color.green;
+            mediumRangeButton.image.color = Color.white;
+            longRangeButton.image.color = Color.white;
+        }
+
+        if (rangeScale == mediumRange)
+        {
+            shortRangeButton.image.color= Color.white;
+            mediumRangeButton.image.color = Color.green;
+            longRangeButton.image.color = Color.white;
+        }
+
+        if (rangeScale == longRange)
+        {
+            shortRangeButton.image.color = Color.white;
+            mediumRangeButton.image.color = Color.white;
+            longRangeButton.image.color = Color.green;
         }
     }
 
