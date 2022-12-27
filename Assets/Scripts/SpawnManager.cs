@@ -19,21 +19,24 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemySpawnPt;
     public GameObject enemyMissile;
 
-    private int randomPoint;
+    public int numbOfOpponents;
+
+    public int numbOfEnemyShipsDestroyed;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        randomPoint = Random.Range(1, 4);
+        
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        Instantiate(enemyShip, enemyShipSpawnPoints[randomPoint].transform.position, enemyShip.transform.rotation);
+        SpawnEnemyShip(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true)
+        if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true && playerController.playerGunManual)
         {
             Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
             Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
@@ -45,6 +48,11 @@ public class SpawnManager : MonoBehaviour
         {
             Instantiate(enemyMissile, enemySpawnPt.transform.position, enemyMissile.transform.rotation);
         }
+
+        if (numbOfEnemyShipsDestroyed == numbOfOpponents)
+        {
+            playerController.gameOver = true;
+        }
     }
 
     //Additonal Functions
@@ -52,5 +60,27 @@ public class SpawnManager : MonoBehaviour
     {
         await Task.Delay(2000);
         gunReady = true;
+    }
+
+    public void GunAutoFire()
+    {
+        if (gunReady)
+        {
+            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            gunReady = false;
+            MakeGunReady();
+        }
+    }
+
+    public void SpawnEnemyShip()
+    {
+        if (numbOfEnemyShipsDestroyed < numbOfOpponents)
+        {
+            int randomPoint = Random.Range(1, 4);
+
+            Instantiate(enemyShip, enemyShipSpawnPoints[randomPoint].transform.position, enemyShip.transform.rotation);
+        }
+        
     }
 }

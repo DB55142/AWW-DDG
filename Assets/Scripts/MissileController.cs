@@ -27,6 +27,8 @@ public class MissileController : MonoBehaviour
     Quaternion Close;
     Quaternion missileStartPos;
 
+    public bool weaponState = false;
+
     
 
     // Start is called before the first frame update
@@ -41,83 +43,103 @@ public class MissileController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetKeyUp(KeyCode.PageUp))
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            if (missileLauncher1.transform.rotation != OpenFwd )
+            if (weaponState)
             {
-                LaunchMissile(missileLaunchPoint1, missileLauncher1, OpenFwd);
+                weaponState = false;
+                Debug.Log("on");
             }
 
             else
             {
-                CloseMissileHatch(missileLauncher1);
+                weaponState = true;
+                Debug.Log("off");
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Home))
+        if (weaponState == true)
         {
-            if (missileLauncher1.transform.rotation != OpenFwd)
+            if (Input.GetKeyUp(KeyCode.PageUp))
             {
-                LaunchMissile(missileLaunchPoint2, missileLauncher2, OpenFwd);
+                if (missileLauncher1.transform.rotation != OpenFwd)
+                {
+                    LaunchMissile(missileLaunchPoint1, missileLauncher1, OpenFwd);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher1);
+                }
             }
 
-            else
+            if (Input.GetKeyUp(KeyCode.Home))
             {
-                CloseMissileHatch(missileLauncher2);
+                if (missileLauncher1.transform.rotation != OpenFwd)
+                {
+                    LaunchMissile(missileLaunchPoint2, missileLauncher2, OpenFwd);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher2);
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Insert))
+            {
+                if (missileLauncher1.transform.rotation != OpenFwd)
+                {
+                    LaunchMissile(missileLaunchPoint3, missileLauncher3, OpenFwd);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher3);
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.PageDown))
+            {
+                if (missileLauncher1.transform.rotation != OpenAft)
+                {
+                    LaunchMissile(missileLaunchPoint4, missileLauncher4, OpenAft);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher4);
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.End))
+            {
+                if (missileLauncher1.transform.rotation != OpenAft)
+                {
+                    LaunchMissile(missileLaunchPoint5, missileLauncher5, OpenAft);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher5);
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Delete))
+            {
+                if (missileLauncher1.transform.rotation != OpenAft)
+                {
+                    LaunchMissile(missileLaunchPoint6, missileLauncher6, OpenAft);
+                }
+
+                else
+                {
+                    CloseMissileHatch(missileLauncher6);
+                }
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.Insert))
-        {
-            if (missileLauncher1.transform.rotation != OpenFwd)
-            {
-                LaunchMissile(missileLaunchPoint3, missileLauncher3, OpenFwd);
-            }
-
-            else
-            {
-                CloseMissileHatch(missileLauncher3);
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.PageDown))
-        {
-            if (missileLauncher1.transform.rotation != OpenAft)
-            {
-                LaunchMissile(missileLaunchPoint4, missileLauncher4, OpenAft);
-            }
-
-            else
-            {
-                CloseMissileHatch(missileLauncher4);
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.End))
-        {
-            if (missileLauncher1.transform.rotation != OpenAft)
-            {
-                LaunchMissile(missileLaunchPoint5, missileLauncher5, OpenAft);
-            }
-
-            else
-            {
-                CloseMissileHatch(missileLauncher5);
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.Delete))
-        {
-            if (missileLauncher1.transform.rotation != OpenAft)
-            {
-                LaunchMissile(missileLaunchPoint6, missileLauncher6, OpenAft);
-            }
-
-            else
-            {
-                CloseMissileHatch(missileLauncher6);
-            }
-        }
+      
     }
 
     //Additional Functions

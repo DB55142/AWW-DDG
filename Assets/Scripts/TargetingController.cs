@@ -15,11 +15,15 @@ public class TargetingController : MonoBehaviour
     private Vector3 direction;
 
 
+    SpawnManager spawnManager;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
 
     }
 
@@ -31,11 +35,16 @@ public class TargetingController : MonoBehaviour
 
         if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
         {
-            if (target.collider.gameObject.tag != "Player" && target.collider.gameObject.tag != "Ocean")
+            if (target.collider.gameObject.tag == "Enemy")
             {
                 Instantiate(targetLock,target.transform.position, targetLock.transform.rotation );
                 targetCoords = target.transform.position;
                 targetShip = target.collider.gameObject;
+            }
+
+            if (target.collider.gameObject.tag == "EnemyShipMarker")
+            {
+                Debug.Log("target");
             }
         }
 
@@ -48,6 +57,7 @@ public class TargetingController : MonoBehaviour
             Quaternion startRot = new Quaternion(0, 0, 0, 0);
             playerController.playerGun.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinal, 0.01f);
             playerController.playerGunVertical.transform.rotation = Quaternion.Lerp(startRot, gunTargetFinalVertical, 0.01f);
+            spawnManager.GunAutoFire();
         }
 
 

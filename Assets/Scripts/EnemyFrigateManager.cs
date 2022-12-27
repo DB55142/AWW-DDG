@@ -73,6 +73,8 @@ public class EnemyFrigateManager : MonoBehaviour
 
     private int speedSelected;
 
+    SpawnManager spawnManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -80,9 +82,9 @@ public class EnemyFrigateManager : MonoBehaviour
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
         oceanManager = GameObject.Find("Ocean").GetComponent<OceanManager>();
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         enemyFrigateRb = GetComponent<Rigidbody>();
         InvokeRepeating("HeadingGenerator", 0.0f, 5.0f);
-
         InvokeRepeating("Engage", 1.0f, 2.0f);
     }
 
@@ -212,8 +214,11 @@ public class EnemyFrigateManager : MonoBehaviour
 
             buoyancyForce = 0;
 
+            spawnManager.numbOfEnemyShipsDestroyed++;
+            spawnManager.SpawnEnemyShip();
             await Task.Delay(5000);
             Destroy(gameObject);
+            
         }
     }
 

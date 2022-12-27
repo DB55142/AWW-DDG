@@ -22,7 +22,7 @@ public class CIWSController : MonoBehaviour
 
     bool firing = false;
 
-    bool autoMode = false;
+    public bool autoMode = false;
 
     bool autoFire = false;
 
