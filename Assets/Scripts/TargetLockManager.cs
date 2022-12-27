@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
 using UnityEngine;
 
 public class TargetLockManager : MonoBehaviour
 {
-    //Additional Variables
-
+    //Class Variables
+    private GameObject target;
 
 
     // Start is called before the first frame update
@@ -17,6 +18,18 @@ public class TargetLockManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (target != null)
+        {
+            transform.position = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        }
+    }
+
+    //Additonal Functions
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            target = other.gameObject;
+        }
     }
 }

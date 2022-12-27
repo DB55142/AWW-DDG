@@ -6,7 +6,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+
 using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject ocean;
 
-    public bool playerGunManual = false;
+    public bool playerGunManual = true;
 
     public float buoyancyForce;
 
@@ -77,15 +77,79 @@ public class PlayerController : MonoBehaviour
 
     public ParticleSystem destructionExplosion;
 
+    public TextMeshProUGUI hullStatus;
+
+    public TextMeshProUGUI gunMode;
+
+    public TextMeshProUGUI missileMode;
+
+    public TextMeshProUGUI ciwsMode;
+
+    public Button gunButton;
+
+    public Button missileButton;
+
+    public Button ciwsButton;
+
+    CIWSController ciwsController;
+
+    MissileController missileController;
+
+    public bool gameOver = false;
+
+    SpawnManager spawnManager;
+
+    public TextMeshProUGUI gameOverText;
+
+
     // Start is called before the first frame update
     void Start()
     {
         ocean = GameObject.Find("Ocean");
+        ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
+        missileController = GameObject.Find("MissileBank").GetComponent<MissileController>();
+        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (gameOver)
+        {
+            gameOverText.gameObject.SetActive(true);
+        }
+
+        if (!gameOver)
+        {
+            gameOverText.gameObject.SetActive(false);
+
+        }
+
+        if (health <= 0)
+        {
+            health = 0;
+        }
+
+        hullStatus.text = "HULL: " + health + "%";
+
+
+        if (health >= 75)
+        {
+            hullStatus.color = Color.green;
+        }
+
+        if (health < 75 && health > 50)
+        {
+            hullStatus.color = Color.yellow;
+        }
+
+        if (health < 50)
+        {
+            hullStatus.color = Color.red;
+        }
+
+
         draught = ocean.transform.position.y - playerHullRigidBody.transform.position.y;
 
         if (playerHullRigidBody.transform.position.y <= ocean.transform.position.y)
@@ -225,6 +289,44 @@ public class PlayerController : MonoBehaviour
                 playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
             }
         }
+
+        if (!playerGunManual)
+        {
+            gunMode.text = "AUTO";
+            gunButton.image.color = Color.green;
+        }
+
+        if (playerGunManual)
+        {
+            gunMode.text = "MAN";
+            gunButton.image.color = Color.yellow;
+        }
+
+        if (!ciwsController.autoMode)
+        {
+            ciwsMode.text = "MAN";
+            ciwsButton.image.color = Color.yellow;
+        }
+
+        if (ciwsController.autoMode)
+        {
+            ciwsMode.text = "AUTO";
+            ciwsButton.image.color = Color.green;
+        }
+
+        if (!missileController.weaponState)
+        {
+            missileMode.text = "DISABLED";
+            missileButton.image.color = Color.red;
+        }
+
+        if (missileController.weaponState)
+        {
+            missileMode.text = "ENABLED";
+            missileButton.image.color = Color.green;
+        }
+
+        DestructionExplosions();
     }
 
     //Additional Functions
@@ -282,6 +384,8 @@ public class PlayerController : MonoBehaviour
             Instantiate(destructionExplosion, explosionpt6.transform.position, destructionExplosion.transform.rotation);
 
             buoyancyForce = 0;
+
+            gameOver = true;
 
             await Task.Delay(5000);
             Destroy(gameObject);
