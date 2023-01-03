@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -23,12 +24,14 @@ public class SpawnManager : MonoBehaviour
 
     public int numbOfEnemyShipsDestroyed;
 
+    int lastPointUsed;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetEnemyForceSize();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         SpawnEnemyShip(); 
     }
@@ -55,6 +58,9 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    //Additional Classes
+
+
     //Additonal Functions
     async void MakeGunReady()
     {
@@ -79,8 +85,20 @@ public class SpawnManager : MonoBehaviour
         {
             int randomPoint = Random.Range(1, 4);
 
+            while (lastPointUsed == randomPoint)
+            {
+                randomPoint = Random.Range(1, 4);
+            }
+
+            lastPointUsed = randomPoint;
+
             Instantiate(enemyShip, enemyShipSpawnPoints[randomPoint].transform.position, enemyShip.transform.rotation);
         }
         
+    }
+
+    public void GetEnemyForceSize()
+    {
+        numbOfOpponents = StartMenuController.enemies;
     }
 }

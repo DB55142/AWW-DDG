@@ -6,8 +6,9 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.IO;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -101,6 +102,20 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI gameOverText;
 
+    public TextMeshProUGUI scoreText;
+
+    public TextMeshProUGUI highScoreText;
+
+    public int score = 0;
+
+    public int highscore = 0;
+
+    public Button returnToMainMenuButton;
+
+    public Button exitGameButton;
+
+    public TextMeshProUGUI highScoreCeleText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -109,21 +124,46 @@ public class PlayerController : MonoBehaviour
         ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
         missileController = GameObject.Find("MissileBank").GetComponent<MissileController>();
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+
+        returnToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
+        exitGameButton.onClick.AddListener(ExitGame);
+        DisplayHighScore();
     }
 
     // Update is called once per frame
     void Update()
     {
+        scoreText.text = "SCORE: " + score;
+
+        highScoreText.text = "HIGH SCORE: " + highscore;
+
+
 
         if (gameOver)
         {
             gameOverText.gameObject.SetActive(true);
+            returnToMainMenuButton.gameObject.SetActive(true);
+
+            if (score >= highscore)
+            {
+                highScoreCeleText.text = "NEW HIGH SCORE OF " + score + "!";
+                highScoreCeleText.gameObject.SetActive(true);
+                exitGameButton.gameObject.SetActive(true);
+            }
+
+            else
+            {
+                highScoreCeleText.gameObject.SetActive(false);
+                
+            }
         }
 
         if (!gameOver)
         {
             gameOverText.gameObject.SetActive(false);
-
+            returnToMainMenuButton.gameObject.SetActive(false);
+            highScoreCeleText.gameObject.SetActive(false);
+            exitGameButton.gameObject.SetActive(false);
         }
 
         if (health <= 0)
@@ -329,6 +369,12 @@ public class PlayerController : MonoBehaviour
         DestructionExplosions();
     }
 
+    //Additional Classes
+    public class SaveScore
+    {
+        public int newHighScore;
+    }
+
     //Additional Functions
     private void OnCollisionEnter(Collision collision)
     {
@@ -376,12 +422,16 @@ public class PlayerController : MonoBehaviour
     {
         if (health < 1.0f)
         {
-            Instantiate(destructionExplosion, explosionpt1.transform.position, destructionExplosion.transform.rotation);
-            Instantiate(destructionExplosion, explosionpt2.transform.position, destructionExplosion.transform.rotation);
-            Instantiate(destructionExplosion, explosionpt3.transform.position, destructionExplosion.transform.rotation);
-            Instantiate(destructionExplosion, explosionpt4.transform.position, destructionExplosion.transform.rotation);
-            Instantiate(destructionExplosion, explosionpt5.transform.position, destructionExplosion.transform.rotation);
-            Instantiate(destructionExplosion, explosionpt6.transform.position, destructionExplosion.transform.rotation);
+            if (destructionExplosion == null)
+            {
+                Instantiate(destructionExplosion, explosionpt1.transform.position, destructionExplosion.transform.rotation);
+                Instantiate(destructionExplosion, explosionpt2.transform.position, destructionExplosion.transform.rotation);
+                Instantiate(destructionExplosion, explosionpt3.transform.position, destructionExplosion.transform.rotation);
+                Instantiate(destructionExplosion, explosionpt4.transform.position, destructionExplosion.transform.rotation);
+                Instantiate(destructionExplosion, explosionpt5.transform.position, destructionExplosion.transform.rotation);
+                Instantiate(destructionExplosion, explosionpt6.transform.position, destructionExplosion.transform.rotation);
+            }
+
 
             buoyancyForce = 0;
 
@@ -390,5 +440,45 @@ public class PlayerController : MonoBehaviour
             await Task.Delay(5000);
             Destroy(gameObject);
         }
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+
+#endif
+    }
+
+    public void UpdateHighScore()
+    {
+        SaveScore newHighScorer = new SaveScore();
+
+        newHighScorer.newHighScore = score;
+
+        string json = JsonUtility.ToJson(score);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void DisplayHighScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveScore displayHighScore = JsonUtility.FromJson<SaveScore>(json);
+            highscore = displayHighScore.newHighScore;
+
+        }
+        
     }
 }

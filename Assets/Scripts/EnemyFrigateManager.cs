@@ -84,8 +84,8 @@ public class EnemyFrigateManager : MonoBehaviour
         oceanManager = GameObject.Find("Ocean").GetComponent<OceanManager>();
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         enemyFrigateRb = GetComponent<Rigidbody>();
-        InvokeRepeating("HeadingGenerator", 0.0f, 5.0f);
-        InvokeRepeating("Engage", 1.0f, 2.0f);
+        //InvokeRepeating("HeadingGenerator", 0.0f, 5.0f);
+        //InvokeRepeating("Engage", 1.0f, 10.0f);
     }
 
     // Update is called once per frame
@@ -215,6 +215,7 @@ public class EnemyFrigateManager : MonoBehaviour
             buoyancyForce = 0;
 
             spawnManager.numbOfEnemyShipsDestroyed++;
+            playerController.score += 10;
             spawnManager.SpawnEnemyShip();
             await Task.Delay(5000);
             Destroy(gameObject);
