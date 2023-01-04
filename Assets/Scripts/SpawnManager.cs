@@ -52,8 +52,10 @@ public class SpawnManager : MonoBehaviour
             Instantiate(enemyMissile, enemySpawnPt.transform.position, enemyMissile.transform.rotation);
         }
 
-        if (numbOfEnemyShipsDestroyed == numbOfOpponents)
+        if (numbOfEnemyShipsDestroyed >= numbOfOpponents)
         {
+            playerController.gameOverText.text = "VICTORY!";
+            playerController.gameOverText.color = Color.green;
             playerController.gameOver = true;
         }
     }
@@ -72,7 +74,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (gunReady)
         {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, (playerController.playerGun.transform.rotation));
             Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
             gunReady = false;
             MakeGunReady();

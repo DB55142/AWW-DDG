@@ -45,4 +45,12 @@ public class PlayerBulletManager : MonoBehaviour
         }
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag != "Enemy" || collision.gameObject.tag != "Ocean")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

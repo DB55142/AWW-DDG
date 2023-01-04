@@ -18,9 +18,12 @@ public class TargetLockManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(0, 0.15f, 0);
+
         if (target != null)
         {
-            transform.position = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+            transform.position = new Vector3(target.transform.position.x, -40, target.transform.position.z);
+            
         }
     }
 

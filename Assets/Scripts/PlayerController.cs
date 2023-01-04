@@ -106,15 +106,25 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI highScoreText;
 
-    public int score = 0;
+    public int score;
 
-    public int highscore = 0;
+    int highscore;
 
     public Button returnToMainMenuButton;
 
     public Button exitGameButton;
 
     public TextMeshProUGUI highScoreCeleText;
+
+    public static Quaternion shipRotation;
+
+    public GameObject defeatMusicBox;
+
+    AudioSource defeatMusic;
+
+    public GameObject victoryMusicBox;
+
+    AudioSource victoryMusic;
 
 
     // Start is called before the first frame update
@@ -128,6 +138,7 @@ public class PlayerController : MonoBehaviour
         returnToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
         exitGameButton.onClick.AddListener(ExitGame);
         DisplayHighScore();
+
     }
 
     // Update is called once per frame
@@ -137,18 +148,40 @@ public class PlayerController : MonoBehaviour
 
         highScoreText.text = "HIGH SCORE: " + highscore;
 
-
+        shipRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
 
         if (gameOver)
         {
             gameOverText.gameObject.SetActive(true);
             returnToMainMenuButton.gameObject.SetActive(true);
+            exitGameButton.gameObject.SetActive(true);
 
-            if (score >= highscore)
+            if (health <= 0)
+            {
+                Instantiate(defeatMusicBox, transform.position, transform.rotation);
+            }
+
+            if (health > 0)
+            {
+                Instantiate(victoryMusicBox, transform.position, transform.rotation);
+            }
+
+            GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+
+            foreach (GameObject x in allObjects)
+            {
+                if (x.gameObject.tag == "EnemyCIWS" || x.gameObject.tag == "EnemyGunProjectile" || x.gameObject.tag == "EnemyMissile" || x.gameObject.tag == "PlayerMissile")
+                {
+                    Destroy(x.gameObject);
+                }
+            }
+
+            if (score > highscore)
             {
                 highScoreCeleText.text = "NEW HIGH SCORE OF " + score + "!";
+                UpdateHighScore();
                 highScoreCeleText.gameObject.SetActive(true);
-                exitGameButton.gameObject.SetActive(true);
+                
             }
 
             else
@@ -197,6 +230,10 @@ public class PlayerController : MonoBehaviour
             playerHullRigidBody.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
 
         if (Input.GetKeyUp(KeyCode.W))
         {
@@ -306,7 +343,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
         if (playerGunManual == true)
         {
             if (Input.GetKey(KeyCode.Keypad4))
@@ -370,6 +406,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Additional Classes
+    [Serializable]
     public class SaveScore
     {
         public int newHighScore;
@@ -418,7 +455,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    async private void DestructionExplosions()
+    private void DestructionExplosions()
     {
         if (health < 1.0f)
         {
@@ -436,9 +473,6 @@ public class PlayerController : MonoBehaviour
             buoyancyForce = 0;
 
             gameOver = true;
-
-            await Task.Delay(5000);
-            Destroy(gameObject);
         }
     }
 
@@ -463,7 +497,7 @@ public class PlayerController : MonoBehaviour
 
         newHighScorer.newHighScore = score;
 
-        string json = JsonUtility.ToJson(score);
+        string json = JsonUtility.ToJson(newHighScorer);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
@@ -477,8 +511,6 @@ public class PlayerController : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveScore displayHighScore = JsonUtility.FromJson<SaveScore>(json);
             highscore = displayHighScore.newHighScore;
-
         }
-        
     }
 }

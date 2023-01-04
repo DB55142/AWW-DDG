@@ -15,6 +15,7 @@ TagManager:
   - PlayerCIWS
   - EnemyCIWS
   - EnemyGunProjectile
+  - IntroMusic
   layers:
   - Default
   - TransparentFX

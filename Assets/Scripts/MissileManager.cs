@@ -34,7 +34,7 @@ public class MissileManager : MonoBehaviour
     {
         localRocketTrans = GetComponent<Transform>(); 
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        targetingController = GameObject.Find("PlayerCameraCentre").GetComponent<TargetingController>();
+        targetingController = GameObject.Find("Spawn Manager").GetComponent<TargetingController>();
         shipForce = playerController.playerHullRigidBody.velocity;
         missileRb.AddForce(shipForce, ForceMode.Impulse);
         MissileClimb();

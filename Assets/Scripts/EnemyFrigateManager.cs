@@ -84,8 +84,8 @@ public class EnemyFrigateManager : MonoBehaviour
         oceanManager = GameObject.Find("Ocean").GetComponent<OceanManager>();
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         enemyFrigateRb = GetComponent<Rigidbody>();
-        //InvokeRepeating("HeadingGenerator", 0.0f, 5.0f);
-        //InvokeRepeating("Engage", 1.0f, 10.0f);
+        InvokeRepeating("HeadingGenerator", 0.0f, StartMenuController.courseChangeRate);
+        InvokeRepeating("Engage", 1.0f, StartMenuController.firingRate);
     }
 
     // Update is called once per frame

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8306956695053828721}
   - component: {fileID: 8306956695053828720}
   - component: {fileID: 8306956695053828723}
-  - component: {fileID: 6952224231535924405}
-  - component: {fileID: 1652281312683602532}
+  - component: {fileID: 1142880219}
+  - component: {fileID: -6030440030491626359}
   m_Layer: 0
   m_Name: SurfaceTarget
   m_TagString: Untagged
@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8306956695053829005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 540, y: -1.5, z: 290}
-  m_LocalScale: {x: 250, y: 10, z: 250}
+  m_LocalPosition: {x: 32.69715, y: 7.6, z: 55.554}
+  m_LocalScale: {x: 700, y: 2322.6, z: 700}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8306956695053829005}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: f53a62680c316ef41be1a025e7add452, type: 3}
 --- !u!23 &8306956695053828723
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6952224231535924405
+--- !u!114 &1142880219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d556475a110a9da419b97440a60f78ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1652281312683602532
+--- !u!65 &-6030440030491626359
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 0.6607849, y: 0.036732007, z: 0.66078484}
+  m_Center: {x: 0.00000008940697, y: 0, z: 0.000000044703484}

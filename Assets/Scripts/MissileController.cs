@@ -29,14 +29,14 @@ public class MissileController : MonoBehaviour
 
     public bool weaponState = false;
 
+    PlayerController playerController;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
-        OpenFwd = Quaternion.Euler(90, 0, 0);
-        OpenAft = Quaternion.Euler(-90, 0, 0);
-        Close = Quaternion.Euler(0, 0, 0);
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         missileStartPos = Quaternion.Euler(-90, 0, 0);
     }
 
@@ -48,13 +48,11 @@ public class MissileController : MonoBehaviour
             if (weaponState)
             {
                 weaponState = false;
-                Debug.Log("on");
             }
 
             else
             {
                 weaponState = true;
-                Debug.Log("off");
             }
         }
 
@@ -139,6 +137,7 @@ public class MissileController : MonoBehaviour
             }
         }
 
+
       
     }
 
@@ -146,8 +145,6 @@ public class MissileController : MonoBehaviour
 
     async void LaunchMissile(GameObject missileLaunchPoint, GameObject missileLaunchHatch, Quaternion OpenAngle)
     {
-        missileLaunchHatch.transform.rotation = Quaternion.Lerp(missileLaunchHatch.transform.rotation, OpenAngle, 1.0f);
-        await Task.Delay(200);
         Instantiate(missileProjectile, missileLaunchPoint.transform.position, missileStartPos);
         await Task.Delay(1500);
         missileLaunchHatch.transform.rotation = Quaternion.Lerp(missileLaunchHatch.transform.rotation, Close, 1.0f);

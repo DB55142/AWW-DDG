@@ -92,7 +92,7 @@ public class CIWSController : MonoBehaviour
                 transform.Rotate(Vector3.right * Time.deltaTime * rotationSpeed);
             }
 
-            if (Input.GetKey(KeyCode.Backslash))
+            if (Input.GetKey(KeyCode.RightControl))
             {
                 if (!autoFire)
                 {

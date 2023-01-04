@@ -32,4 +32,14 @@ public class CIWSBulletManager : MonoBehaviour
         Destroy(gameObject);
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+       if (collision.gameObject.tag != "Enemy" || collision.gameObject.tag != "Ocean" || collision.gameObject.tag != "EnemyMissile")
+          {
+             Destroy(gameObject);
+          }
+    }
+
+
 }
