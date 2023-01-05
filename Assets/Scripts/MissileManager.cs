@@ -43,16 +43,16 @@ public class MissileManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         startPos = transform.position;
 
         if (missileArmed == true)
         {
-            Vector3 direction = (targetingController.targetCoords + offSet) - localRocketTrans.position;
+            Vector3 direction = (targetingController.targetShip.transform.position + offSet) - transform.position;
             Quaternion rotateMissile = Quaternion.LookRotation(direction);
             Quaternion rotateMissileFinal = Quaternion.Euler(targetingController.targetCoords - transform.position);
-            transform.rotation = Quaternion.LookRotation(targetingController.targetCoords - localRocketTrans.position);
+            transform.rotation = rotateMissile;
             missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * 250, ForceMode.Impulse);
         }
 
@@ -63,7 +63,7 @@ public class MissileManager : MonoBehaviour
     {
         missileRb.AddForce(Vector3.up * Time.deltaTime * speed, ForceMode.Impulse);
 
-        await Task.Delay(800);
+        await Task.Delay(1000);
         missileArmed = true;
         
     }
@@ -78,7 +78,7 @@ public class MissileManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "EnemyMissile")
+        if (collision.gameObject.tag == "EnemyCIWS")
         {
             Vector3 position = transform.position;
             Instantiate(missileTimeOutExplosion, position, missileTimeOutExplosion.transform.rotation);

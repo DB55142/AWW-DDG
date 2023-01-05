@@ -16,11 +16,12 @@ TagManager:
   - EnemyCIWS
   - EnemyGunProjectile
   - IntroMusic
+  - AimPoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ocean
   - Water
   - UI
   - RadarLayer

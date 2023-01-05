@@ -75,6 +75,8 @@ public class EnemyFrigateManager : MonoBehaviour
 
     SpawnManager spawnManager;
 
+    public bool targeted = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -86,6 +88,8 @@ public class EnemyFrigateManager : MonoBehaviour
         enemyFrigateRb = GetComponent<Rigidbody>();
         InvokeRepeating("HeadingGenerator", 0.0f, StartMenuController.courseChangeRate);
         InvokeRepeating("Engage", 1.0f, StartMenuController.firingRate);
+
+        Debug.Log(StartMenuController.firingRate);
     }
 
     // Update is called once per frame
@@ -169,7 +173,6 @@ public class EnemyFrigateManager : MonoBehaviour
             {
                 DestructionExplosions();
             }
-
         }
 
         else if (collision.gameObject.tag == "PlayerMissile")
@@ -225,6 +228,7 @@ public class EnemyFrigateManager : MonoBehaviour
 
     async private void Engage()
     {
+        Debug.Log("Engaging");
         float range = Vector3.Distance(gameObject.transform.position, playerController.gameObject.transform.position);
 
         if (range <= missileDetectRange && fire == 1)

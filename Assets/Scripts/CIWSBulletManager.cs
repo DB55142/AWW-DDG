@@ -10,9 +10,12 @@ public class CIWSBulletManager : MonoBehaviour
 
     [SerializeField] float charge;
 
+    CIWSController ciwsController;
+
     // Start is called before the first frame update
     void Start()
     {
+        ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
         bulletRb.AddRelativeForce(Vector3.forward * Time.deltaTime * charge, ForceMode.Impulse);
         Timer();
     }
@@ -32,13 +35,12 @@ public class CIWSBulletManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-       if (collision.gameObject.tag != "Enemy" || collision.gameObject.tag != "Ocean" || collision.gameObject.tag != "EnemyMissile")
-          {
-             Destroy(gameObject);
-          }
+        if (other.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
     }
 
 

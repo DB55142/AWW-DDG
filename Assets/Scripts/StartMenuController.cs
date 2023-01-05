@@ -34,6 +34,8 @@ public class StartMenuController : MonoBehaviour
 
     public static int firingRate;
 
+    public static int gunFiringRate;
+
     public static int courseChangeRate;
 
     GameObject musicBox;
@@ -59,7 +61,26 @@ public class StartMenuController : MonoBehaviour
     //Update function is called once every frame
     private void Update()
     {
+        if (firingRate == 25)
+        {
+            easyDifficulty.image.color = Color.green;
+            mediumDifficulty.image.color = Color.white;
+            highDifficulty.image.color = Color.white;
+        }
 
+        if (firingRate == 20)
+        {
+            easyDifficulty.image.color = Color.white;
+            mediumDifficulty.image.color = Color.yellow;
+            highDifficulty.image.color = Color.white;
+        }
+
+        if (firingRate == 15)
+        {
+            easyDifficulty.image.color = Color.white;
+            mediumDifficulty.image.color = Color.white;
+            highDifficulty.image.color = Color.red;
+        }
     }
 
     //Additional Classes
@@ -82,6 +103,8 @@ public class StartMenuController : MonoBehaviour
         
 
     }
+
+
 
     private void Help()
     {
@@ -108,18 +131,21 @@ public class StartMenuController : MonoBehaviour
     public void EasyDifficulty()
     {
         firingRate = 25;
+        gunFiringRate = 15;
         courseChangeRate = 60;
     }
 
     public void MediumDifficulty()
     {
         firingRate = 20;
+        gunFiringRate = 10;
         courseChangeRate = 40;
     }
 
     public void HighDifficulty()
     {
         firingRate = 15;
+        gunFiringRate = 5;
         courseChangeRate = 30;
     }
 

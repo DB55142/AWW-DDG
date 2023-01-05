@@ -7,7 +7,7 @@ public class TargetingController : MonoBehaviour
     //Class Variables
     public Camera mainCamera;
     public GameObject targetLock;
-    private GameObject targetShip;
+    public GameObject targetShip;
 
     PlayerController playerController;
 
@@ -31,6 +31,7 @@ public class TargetingController : MonoBehaviour
 
     float xAngle;
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -43,17 +44,19 @@ public class TargetingController : MonoBehaviour
     void Update()
     {
 
+
         Ray startPoint = mainCamera.ScreenPointToRay(Input.mousePosition);
 
 
 
         if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
         {
-            if (target.collider.gameObject.tag == "Enemy")
+            if (target.collider.gameObject.tag == "Enemy" && target.collider.gameObject.GetComponent<EnemyFrigateManager>().targeted == false)
             {
-                Instantiate(targetLock,target.transform.position, targetLock.transform.rotation );
+                Instantiate(targetLock, target.transform.position, targetLock.transform.rotation);
                 targetCoords = target.transform.position;
                 targetShip = target.collider.gameObject;
+                targetShip.GetComponent<EnemyFrigateManager>().targeted = true;
             }
         }
 
@@ -68,12 +71,12 @@ public class TargetingController : MonoBehaviour
 
         if (playerController.playerGunManual == false && targetShip != null)
         {
-            direction = targetCoords - playerController.playerGun.transform.position;
+            direction = (targetShip.transform.position) - playerController.playerGun.transform.position;
             Quaternion gunTrain = Quaternion.LookRotation(direction);
             Quaternion gunTargetFinal = new Quaternion(0, gunTrain.y, 0, playerController.playerGun.transform.rotation.w);
             Quaternion gunTargetFinalVertical = new Quaternion(gunTrain.x, gunTrain.y, 0, playerController.playerGunVertical.transform.rotation.w);
-            playerController.playerGun.transform.rotation = Quaternion.Lerp(playerController.playerGun.transform.rotation, gunTargetFinal, 0.01f);
-            playerController.playerGunVertical.transform.rotation = Quaternion.Lerp(playerController.playerGunVertical.transform.rotation, gunTargetFinalVertical, 0.01f);
+            playerController.playerGun.transform.rotation = gunTargetFinal;
+            playerController.playerGunVertical.transform.rotation = gunTargetFinalVertical;
             lockedOn = true;
         }
 
@@ -101,7 +104,6 @@ public class TargetingController : MonoBehaviour
             else
             {
                 ownShip = false;
-                //Debug.Log("safe to fire");
             }
         }
 

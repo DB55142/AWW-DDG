@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51d94b90b2a6584392244eea729e155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charge: 100000
+  charge: 200000
   bulletDestroyed: {fileID: 8798750646266754991, guid: 949ce8d33491264448eb52517a184db7, type: 3}
 --- !u!96 &286021667724812500
 TrailRenderer:
@@ -151,7 +151,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b5996b15324d9894d998b7928a5fcc4f, type: 2}
+  - {fileID: 2100000, guid: 7cdf87bf35e44984a8a7c8d6e2f563d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,8 +180,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.6198349
+        time: 0.0019047618
+        value: 0.5041324
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -202,8 +202,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0}
-      key1: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 0}
+      key0: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+      key1: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

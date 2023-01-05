@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletRb: {fileID: 7540299582323337155}
-  charge: 150000
+  charge: 100000
 --- !u!135 &-4295186568442455587
 SphereCollider:
   m_ObjectHideFlags: 0

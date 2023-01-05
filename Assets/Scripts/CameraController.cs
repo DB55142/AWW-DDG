@@ -61,7 +61,12 @@ public class CameraController : MonoBehaviour
             
             mainCamera.fieldOfView -= zoom;
 
-
+            if (playerController.gameOver)
+            {
+                mainCamera.gameObject.SetActive(true);
+                gunCamera.gameObject.SetActive(false);
+                ciwsCamera.gameObject.SetActive(false);
+            }
             
         }
 

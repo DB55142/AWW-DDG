@@ -73,13 +73,12 @@ public class EnemyCIWSManager : MonoBehaviour
             if (distance < detectionRange)
             {
                 tracking = true;
-                Debug.Log("In Range");
             }
 
             else if (distance >= detectionRange)
             {
                 tracking = false;
-                Debug.Log("Out of Range");
+                target = null;
             }
         }
     }
@@ -103,7 +102,7 @@ public class EnemyCIWSManager : MonoBehaviour
 
     private void FiringRate()
     {
-        if (autoFire == true)
+        if (autoFire == true && target != null)
         {
             Instantiate(ciwsBullet, ciwsFiringPoint.transform.position, transform.rotation);
         }

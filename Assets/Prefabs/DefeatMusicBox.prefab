@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3285475227309949789}
   m_Layer: 0
   m_Name: DefeatMusicBox
-  m_TagString: Untagged
+  m_TagString: IntroMusic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: aafc793b634b7e04386d642ded033b55, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.602
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -118,7 +118,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

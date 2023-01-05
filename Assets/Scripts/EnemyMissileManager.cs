@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.UIElements;
 
 public class EnemyMissileManager : MonoBehaviour
 {
@@ -68,6 +69,15 @@ public class EnemyMissileManager : MonoBehaviour
         Vector3 position = transform.position;
         Instantiate(missileTimeOutExplosion, position, missileTimeOutExplosion.transform.rotation);
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "PlayerCIWS")
+        {
+            Instantiate(missileTimeOutExplosion, transform.position, missileTimeOutExplosion.transform.rotation);
+            Destroy(this.gameObject);
+        }
     }
 
 

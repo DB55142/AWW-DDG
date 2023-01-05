@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
     //Class Variables
     public GameObject playerGunFiringPoint;
+    public AudioSource playerGunFireSound;
+
     public GameObject playerGunProjectile;
     public ParticleSystem playerGunGas;
     public GameObject[] enemyShipSpawnPoints = new GameObject[4];
@@ -24,8 +27,17 @@ public class SpawnManager : MonoBehaviour
 
     public int numbOfEnemyShipsDestroyed;
 
+    int shipsRemaining;
+
     int lastPointUsed;
 
+    public TextMeshProUGUI shipsLeft;
+
+    Quaternion gunRotationStart;
+
+    TargetingController targetingController;
+
+    public float gunRange;
 
 
     // Start is called before the first frame update
@@ -33,15 +45,27 @@ public class SpawnManager : MonoBehaviour
     {
         GetEnemyForceSize();
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        SpawnEnemyShip(); 
+        SpawnEnemyShip();
+
+        targetingController = GameObject.Find("Spawn Manager").GetComponent<TargetingController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        shipsRemaining = numbOfOpponents - numbOfEnemyShipsDestroyed;
+
+        shipsLeft.text = "SHIPS REMAINING: " + shipsRemaining;
+
+        if (shipsRemaining <= 0)
+        {
+            shipsLeft.color = Color.green;
+        }
+
         if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true && playerController.playerGunManual)
         {
             Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            playerGunFireSound.Play();
             Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
             gunReady = false;
             MakeGunReady();
@@ -58,6 +82,8 @@ public class SpawnManager : MonoBehaviour
             playerController.gameOverText.color = Color.green;
             playerController.gameOver = true;
         }
+
+        gunRotationStart = new Quaternion (playerController.playerGun.transform.rotation.x,playerController.playerGunVertical.transform.rotation.y, playerController.playerGun.transform.rotation.z, playerController.playerGun.transform.rotation.w );
     }
 
     //Additional Classes
@@ -72,10 +98,11 @@ public class SpawnManager : MonoBehaviour
 
     public void GunAutoFire()
     {
-        if (gunReady)
+        if (gunReady && targetingController.targetShip != null && Vector3.Distance(playerController.transform.position, targetingController.targetShip.transform.position) <= gunRange && playerController.gameOver == false)
         {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, (playerController.playerGun.transform.rotation));
+            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, gunRotationStart);
             Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+            playerGunFireSound.Play();
             gunReady = false;
             MakeGunReady();
         }
@@ -96,7 +123,6 @@ public class SpawnManager : MonoBehaviour
 
             Instantiate(enemyShip, enemyShipSpawnPoints[randomPoint].transform.position, enemyShip.transform.rotation);
         }
-        
     }
 
     public void GetEnemyForceSize()

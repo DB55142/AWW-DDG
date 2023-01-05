@@ -25,6 +25,11 @@ public class TargetLockManager : MonoBehaviour
             transform.position = new Vector3(target.transform.position.x, -40, target.transform.position.z);
             
         }
+
+        if (target == null)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     //Additonal Functions

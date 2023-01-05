@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
 
 public class EnemyGunManager : MonoBehaviour
@@ -18,13 +19,17 @@ public class EnemyGunManager : MonoBehaviour
 
     private bool gunReady = false;
 
-    private Vector3 offSet = new Vector3(0, 20, 0);
+    private Vector3 offSet = new Vector3(0, 15, 0);
+
+    public AudioSource enemyGunFireSound;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        InvokeRepeating("Engage", 2.0f, 2.0f);
+        InvokeRepeating("Engage", 2.0f, StartMenuController.gunFiringRate);
     }
 
     // Update is called once per frame
@@ -36,6 +41,11 @@ public class EnemyGunManager : MonoBehaviour
         {
             Tracking();
         }
+
+        if (distance > gunRange)
+        {
+            gunReady = false;
+        }
     }
 
     //Additional Functions
@@ -45,11 +55,15 @@ public class EnemyGunManager : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = rotation;
         gunReady = true;
-        
     }
 
     private void Engage()
     {
-        Instantiate(projectile, firingPoint.transform.position, transform.rotation);
+        if (gunReady)
+        {
+            Instantiate(projectile, firingPoint.transform.position, transform.rotation);
+            enemyGunFireSound.Play();
+        }
+
     }
 }

@@ -26,13 +26,15 @@ public class CIWSController : MonoBehaviour
 
     bool autoFire = false;
 
-    bool safeToFire = false;
+    public bool safeToFire = false;
 
     public GameObject ciwsRadarRange;
 
     public GameObject ciwsBullet;
 
     public GameObject ciwsFiringPoint;
+
+    
 
 
 
@@ -50,20 +52,7 @@ public class CIWSController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ray ray = new Ray(firingPoint.transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit unintended))
-        {
-            if (unintended.collider.gameObject.tag == "Player")
-            {
-                safeToFire = false;
-            }
 
-            else if (unintended.collider.gameObject.tag != "Player")
-            {
-                safeToFire = true;
-            }
-            
-        }
 
         if (autoMode == true)
         {
@@ -100,7 +89,7 @@ public class CIWSController : MonoBehaviour
                 }
             }
 
-            if (!Input.GetKey(KeyCode.Backslash))
+            if (!Input.GetKey(KeyCode.RightControl))
             {
                 autoFire = false;
             }
@@ -112,6 +101,7 @@ public class CIWSController : MonoBehaviour
             if (!autoMode)
             {
                 autoMode = true;
+
             }
 
             else 
@@ -119,12 +109,19 @@ public class CIWSController : MonoBehaviour
                 autoMode = false;
             }
         }
+
+        if (target == null)
+        {
+            autoFire = false;
+        }
+
+
     }
 
     //Aditional Functions
     private void TargetCheck()
     {
-        target = GameObject.FindGameObjectWithTag("EnemyMissile");
+        target = GameObject.FindGameObjectWithTag("AimPoint");
 
         if (target != null)
         {
@@ -138,6 +135,7 @@ public class CIWSController : MonoBehaviour
             else if (distance >= detectionRange)
             {
                 tracking = false;
+                target = null;
             }
         }
     }
@@ -150,20 +148,17 @@ public class CIWSController : MonoBehaviour
             Vector3 targetPos = target.transform.position - offsetTarget;
             Quaternion ciwsRotation = Quaternion.LookRotation(targetPos - transform.position);
             transform.rotation = Quaternion.Lerp(transform.rotation, ciwsRotation, 0.5f);
-
-            if (safeToFire == true)
-            {
-                autoFire = true;
-            }
+            autoFire = true;
+            FiringRate();
         }
-
     }
 
-    private void FiringRate()
+    private async  void FiringRate()
     {
-        if (autoFire == true)
+        if (autoFire == true && target != null)
         {
             Instantiate(ciwsBullet, ciwsFiringPoint.transform.position, transform.rotation);
+            await Task.Delay(100);
         }
 
         else

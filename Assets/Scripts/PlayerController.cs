@@ -126,6 +126,10 @@ public class PlayerController : MonoBehaviour
 
     AudioSource victoryMusic;
 
+    public GameObject mainCameraCentre;
+
+    AudioSource battleMusic;
+
 
     // Start is called before the first frame update
     void Start()
@@ -139,11 +143,16 @@ public class PlayerController : MonoBehaviour
         exitGameButton.onClick.AddListener(ExitGame);
         DisplayHighScore();
 
+        battleMusic = GetComponent<AudioSource>();
+
+        score = 0;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         scoreText.text = "SCORE: " + score;
 
         highScoreText.text = "HIGH SCORE: " + highscore;
@@ -152,18 +161,46 @@ public class PlayerController : MonoBehaviour
 
         if (gameOver)
         {
+            battleMusic.Stop();
             gameOverText.gameObject.SetActive(true);
             returnToMainMenuButton.gameObject.SetActive(true);
             exitGameButton.gameObject.SetActive(true);
+            spawnManager.shipsLeft.gameObject.SetActive(false);
 
             if (health <= 0)
             {
-                Instantiate(defeatMusicBox, transform.position, transform.rotation);
+                GameObject[] musicBoxes = GameObject.FindGameObjectsWithTag("IntroMusic");
+
+                if (transform.position.y < -93)
+                {
+                    transform.position = new Vector3(transform.position.x, -93, transform.position.z);
+                }
+
+                if (musicBoxes.Length >= 1)
+                {
+                    return;
+                }
+
+                else
+                {
+                    Instantiate(defeatMusicBox, transform.position, transform.rotation);
+                }
             }
 
             if (health > 0)
             {
-                Instantiate(victoryMusicBox, transform.position, transform.rotation);
+                GameObject[] musicBoxes = GameObject.FindGameObjectsWithTag("IntroMusic");
+                transform.position = new Vector3(transform.position.x, -8.0f, transform.position.z);
+
+                if (musicBoxes.Length >= 1)
+                {
+                    return;
+                }
+
+                else
+                {
+                    Instantiate(victoryMusicBox, transform.position, transform.rotation);
+                }
             }
 
             GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
@@ -181,14 +218,15 @@ public class PlayerController : MonoBehaviour
                 highScoreCeleText.text = "NEW HIGH SCORE OF " + score + "!";
                 UpdateHighScore();
                 highScoreCeleText.gameObject.SetActive(true);
-                
             }
 
             else
             {
-                highScoreCeleText.gameObject.SetActive(false);
-                
+                highScoreCeleText.gameObject.SetActive(false); 
             }
+
+            mainCameraCentre.transform.DetachChildren();
+            Pause();
         }
 
         if (!gameOver)
@@ -197,6 +235,7 @@ public class PlayerController : MonoBehaviour
             returnToMainMenuButton.gameObject.SetActive(false);
             highScoreCeleText.gameObject.SetActive(false);
             exitGameButton.gameObject.SetActive(false);
+            Time.timeScale = 1;
         }
 
         if (health <= 0)
@@ -512,5 +551,11 @@ public class PlayerController : MonoBehaviour
             SaveScore displayHighScore = JsonUtility.FromJson<SaveScore>(json);
             highscore = displayHighScore.newHighScore;
         }
+    }
+
+    public async void Pause()
+    {
+        await Task.Delay(9000);
+        Time.timeScale = 0;
     }
 }
