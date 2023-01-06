@@ -7,6 +7,7 @@ public class PlayerBulletManager : MonoBehaviour
 {
     //Class Variables
     Rigidbody projectile;
+
     public float charge;
 
     public ParticleSystem bulletDestroyed;
@@ -18,13 +19,6 @@ public class PlayerBulletManager : MonoBehaviour
         projectile = GetComponent<Rigidbody>();
         projectile.AddRelativeForce(Vector3.forward * Time.deltaTime * charge, ForceMode.Impulse);
         DeleteBullet();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     //Additional Functions
@@ -42,8 +36,7 @@ public class PlayerBulletManager : MonoBehaviour
         else
         {
             return;
-        }
-        
+        }  
     }
 
     private void OnCollisionEnter(Collision collision)

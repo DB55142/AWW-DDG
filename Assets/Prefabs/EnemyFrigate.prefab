@@ -1865,7 +1865,7 @@ MonoBehaviour:
   ciwsHit: {fileID: 2927378923021612409, guid: 28707f3a3a0c3414091462172bbb3b04, type: 3}
   destructionExplosion: {fileID: 7631249792594628738, guid: f40bf26062559a24b82f78ecb263c0f5, type: 3}
   health: 100
-  buoyancyForce: 3000
+  buoyancyForce: 6000
   explosionpt1: {fileID: 589594572}
   explosionpt2: {fileID: 1914347546}
   explosionpt3: {fileID: 1039910606}
@@ -1890,6 +1890,7 @@ MonoBehaviour:
   - 90
   - 180
   - 270
+  targeted: 0
 --- !u!65 &236246949858056547
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -50,17 +50,14 @@ public class EnemyMissileManager : MonoBehaviour
             transform.rotation = rotateMissile;
             missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * 250, ForceMode.Impulse);
         }
-
     }
 
     //Additional Functions
     async void MissileClimb()
     {
         missileRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed, ForceMode.Impulse);
-
         await Task.Delay(800);
         missileArmed = true;
-
     }
 
     async void TimeOut()
@@ -79,8 +76,4 @@ public class EnemyMissileManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-
-
-
 }

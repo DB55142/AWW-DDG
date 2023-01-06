@@ -33,8 +33,6 @@ public class SpawnManager : MonoBehaviour
 
     public TextMeshProUGUI shipsLeft;
 
-    Quaternion gunRotationStart;
-
     TargetingController targetingController;
 
     public float gunRange;
@@ -53,6 +51,19 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ShipsRemaining();
+        
+        if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true && playerController.playerGunManual)
+        {
+            GunFire();
+        }
+
+        VictoryCondition();
+    }
+
+    //Additonal Functions
+    private void ShipsRemaining()
+    {
         shipsRemaining = numbOfOpponents - numbOfEnemyShipsDestroyed;
 
         shipsLeft.text = "SHIPS REMAINING: " + shipsRemaining;
@@ -61,50 +72,27 @@ public class SpawnManager : MonoBehaviour
         {
             shipsLeft.color = Color.green;
         }
-
-        if (Input.GetKeyUp(KeyCode.Keypad5) && gunReady == true && playerController.playerGunManual)
-        {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
-            playerGunFireSound.Play();
-            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
-            gunReady = false;
-            MakeGunReady();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Backspace))
-        {
-            Instantiate(enemyMissile, enemySpawnPt.transform.position, enemyMissile.transform.rotation);
-        }
-
-        if (numbOfEnemyShipsDestroyed >= numbOfOpponents)
-        {
-            playerController.gameOverText.text = "VICTORY!";
-            playerController.gameOverText.color = Color.green;
-            playerController.gameOver = true;
-        }
-
-        gunRotationStart = new Quaternion (playerController.playerGun.transform.rotation.x,playerController.playerGunVertical.transform.rotation.y, playerController.playerGun.transform.rotation.z, playerController.playerGun.transform.rotation.w );
     }
-
-    //Additional Classes
-
-
-    //Additonal Functions
     async void MakeGunReady()
     {
         await Task.Delay(2000);
         gunReady = true;
     }
 
+    public void GunFire()
+    {
+        Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+        playerGunFireSound.Play();
+        Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
+        gunReady = false;
+        MakeGunReady();
+    }
+
     public void GunAutoFire()
     {
         if (gunReady && targetingController.targetShip != null && Vector3.Distance(playerController.transform.position, targetingController.targetShip.transform.position) <= gunRange && playerController.gameOver == false)
         {
-            Instantiate(playerGunProjectile, playerGunFiringPoint.transform.position, gunRotationStart);
-            Instantiate(playerGunGas, playerGunFiringPoint.transform.position, playerController.playerGunVertical.transform.rotation);
-            playerGunFireSound.Play();
-            gunReady = false;
-            MakeGunReady();
+            GunFire();
         }
     }
 
@@ -128,5 +116,15 @@ public class SpawnManager : MonoBehaviour
     public void GetEnemyForceSize()
     {
         numbOfOpponents = StartMenuController.enemies;
+    }
+
+    public void VictoryCondition()
+    {
+        if (shipsRemaining == 0 && playerController.health > 0)
+        {
+            playerController.gameOverText.text = "VICTORY!";
+            playerController.gameOverText.color = Color.green;
+            playerController.gameOver = true;
+        }
     }
 }

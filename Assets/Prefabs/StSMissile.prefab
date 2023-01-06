@@ -5072,7 +5072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileRb: {fileID: 5247759519348472387}
-  speed: 6000
+  speed: 30000
   startPos: {x: 0, y: 0, z: 0}
   missileTarget: {x: 0, y: 0, z: 0}
   missileTimeOutExplosion: {fileID: 8798750646266754991, guid: 444761b8072d1174cb8127ef5788b747, type: 3}

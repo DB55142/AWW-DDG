@@ -7,7 +7,6 @@ public class RadarController : MonoBehaviour
 {
 
     //Class Variables
-
     private float rangeScale;
 
     public float shortRange;
@@ -24,14 +23,11 @@ public class RadarController : MonoBehaviour
 
     public Button longRangeButton;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
         radarCamera = GetComponent<Camera>();
         rangeScale = shortRange;
-
     }
 
     // Update is called once per frame
@@ -54,6 +50,12 @@ public class RadarController : MonoBehaviour
             rangeScale = shortRange;
         }
 
+        ButtonColours();
+    }
+
+    //Additional Functions
+    private void ButtonColours()
+    {
         if (rangeScale == shortRange)
         {
             shortRangeButton.image.color = Color.green;
@@ -63,7 +65,7 @@ public class RadarController : MonoBehaviour
 
         if (rangeScale == mediumRange)
         {
-            shortRangeButton.image.color= Color.white;
+            shortRangeButton.image.color = Color.white;
             mediumRangeButton.image.color = Color.green;
             longRangeButton.image.color = Color.white;
         }
@@ -75,6 +77,4 @@ public class RadarController : MonoBehaviour
             longRangeButton.image.color = Color.green;
         }
     }
-
-    //Additional Functions
 }

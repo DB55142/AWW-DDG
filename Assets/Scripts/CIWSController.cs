@@ -12,7 +12,9 @@ public class CIWSController : MonoBehaviour
     //Class Variables
     private GameObject target;
     public GameObject firingPoint;
-    bool tracking = false;
+    public GameObject ciwsRadarRange;
+    public GameObject ciwsBullet;
+    public GameObject ciwsFiringPoint;
 
     PlayerController playerController;
 
@@ -28,15 +30,7 @@ public class CIWSController : MonoBehaviour
 
     public bool safeToFire = false;
 
-    public GameObject ciwsRadarRange;
-
-    public GameObject ciwsBullet;
-
-    public GameObject ciwsFiringPoint;
-
-    
-
-
+    bool tracking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -46,13 +40,24 @@ public class CIWSController : MonoBehaviour
         InvokeRepeating("TargetCheck", 0.0f, 0.5f);
         
         InvokeRepeating("FiringRate", 0.0f, 0.1f);
- 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            if (!autoMode)
+            {
+                autoMode = true;
 
+            }
+
+            else
+            {
+                autoMode = false;
+            }
+        }
 
         if (autoMode == true)
         {
@@ -61,6 +66,19 @@ public class CIWSController : MonoBehaviour
 
         if (autoMode == false)
         {
+            ManualOperation();
+        }
+
+        if (target == null)
+        {
+            autoFire = false;
+        }
+    }
+
+    //Aditional Functions
+    private void ManualOperation()
+    {
+       
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
@@ -93,32 +111,9 @@ public class CIWSController : MonoBehaviour
             {
                 autoFire = false;
             }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            if (!autoMode)
-            {
-                autoMode = true;
-
-            }
-
-            else 
-            {
-                autoMode = false;
-            }
-        }
-
-        if (target == null)
-        {
-            autoFire = false;
-        }
-
-
     }
 
-    //Aditional Functions
+
     private void TargetCheck()
     {
         target = GameObject.FindGameObjectWithTag("AimPoint");
@@ -167,6 +162,4 @@ public class CIWSController : MonoBehaviour
         }
         
     }
-
-
 }

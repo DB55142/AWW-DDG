@@ -7,19 +7,6 @@ public class OceanManager : MonoBehaviour
     //Class Variables
     public ParticleSystem waterRipple;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //Additional Functions
     private void OnTriggerEnter(Collider other)
     {

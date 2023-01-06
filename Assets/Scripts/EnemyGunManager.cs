@@ -8,13 +8,11 @@ public class EnemyGunManager : MonoBehaviour
 {
     //Class Variables
     public float gunRange;
+    private float distance;
 
     PlayerController playerController;
 
-    private float distance;
-
     public GameObject projectile;
-
     public GameObject firingPoint;
 
     private bool gunReady = false;
@@ -22,8 +20,6 @@ public class EnemyGunManager : MonoBehaviour
     private Vector3 offSet = new Vector3(0, 15, 0);
 
     public AudioSource enemyGunFireSound;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +30,12 @@ public class EnemyGunManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        CheckDistance();
+    }
+
+    //Additional Functions
+    private void CheckDistance()
     {
         distance = Vector3.Distance(transform.position, playerController.gameObject.transform.position);
 
@@ -48,7 +50,6 @@ public class EnemyGunManager : MonoBehaviour
         }
     }
 
-    //Additional Functions
     private void Tracking()
     {
         Vector3 direction = playerController.transform.position - (transform.position - offSet);
@@ -64,6 +65,5 @@ public class EnemyGunManager : MonoBehaviour
             Instantiate(projectile, firingPoint.transform.position, transform.rotation);
             enemyGunFireSound.Play();
         }
-
     }
 }

@@ -7,11 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OceanMaterial
-  m_Shader: {fileID: 4800000, guid: cab0bc95e1ce4946a1298a052a7d1d6f, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords:
+  m_Name: OceanMaterialBottom
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords:
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -150,7 +150,7 @@ Material:
     - _BaseColor: {r: 0.07075471, g: 0.24926631, b: 1, a: 0.5}
     - _BumpDirection: {r: 1, g: 1, b: -1, a: 1}
     - _BumpTiling: {r: 1, g: 1, b: -2, a: 3}
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.17953062, b: 1, a: 0.5529412}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Foam: {r: 4.86, g: 5.02, b: 3.04, a: 0}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
@@ -159,5 +159,5 @@ Material:
     - _MirrorColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _MirrorDepthColor: {r: 0, g: 0, b: 0, a: 0.5}
     - _ReflectionColor: {r: 0.28, g: 0.29, b: 0.25, a: 0.5}
-    - _SpecColor: {r: 0, g: 0.0032186517, b: 0.028301895, a: 1}
+    - _SpecColor: {r: 0.15566039, g: 0.27628028, b: 1, a: 1}
   m_BuildTextureStacks: []

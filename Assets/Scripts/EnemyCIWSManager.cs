@@ -7,6 +7,10 @@ public class EnemyCIWSManager : MonoBehaviour
     //Class Variables
     private GameObject target;
 
+    public GameObject ciwsBullet;
+
+    public GameObject ciwsFiringPoint;
+
     bool tracking = false;
 
     PlayerController playerController;
@@ -23,27 +27,27 @@ public class EnemyCIWSManager : MonoBehaviour
 
     bool safeToFire = false;
 
-    public GameObject ciwsBullet;
-
-    public GameObject ciwsFiringPoint;
-
-
-
     // Start is called before the first frame update
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
 
         InvokeRepeating("TargetCheck", 0.0f, 0.5f);
-
         InvokeRepeating("FiringRate", 0.0f, 0.1f);
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        AcquireTarget();
+        TrackTarget();
+    }
+
+    //Aditional Functions
+    private void AcquireTarget()
+    {
         Ray ray = new Ray(ciwsFiringPoint.transform.position, transform.forward);
+
         if (Physics.Raycast(ray, out RaycastHit unintended))
         {
             if (unintended.collider.gameObject.tag == "Enemy")
@@ -55,13 +59,9 @@ public class EnemyCIWSManager : MonoBehaviour
             {
                 safeToFire = true;
             }
-
         }
-
-        TrackTarget();
     }
 
-    //Aditional Functions
     private void TargetCheck()
     {
         target = GameObject.FindGameObjectWithTag("PlayerMissile");
@@ -97,7 +97,6 @@ public class EnemyCIWSManager : MonoBehaviour
                 autoFire = true;
             }
         }
-
     }
 
     private void FiringRate()
@@ -111,6 +110,5 @@ public class EnemyCIWSManager : MonoBehaviour
         {
             return;
         }
-
     }
 }

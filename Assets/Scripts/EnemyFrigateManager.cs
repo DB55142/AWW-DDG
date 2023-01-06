@@ -19,7 +19,7 @@ public class EnemyFrigateManager : MonoBehaviour
 
     public ParticleSystem destructionExplosion;
 
-    [SerializeField] private float health;
+    public float health;
 
     private float gunHit = 20.0f;
 
@@ -55,8 +55,6 @@ public class EnemyFrigateManager : MonoBehaviour
 
     public GameObject missile;
 
-    public float force;
-
     public float turningForce;
 
     public float missileDetectRange = 7000;
@@ -71,11 +69,17 @@ public class EnemyFrigateManager : MonoBehaviour
 
     private string[] speedPreset = new string[] {"Stop", "Slow", "Half", "Standard", "Full"};
 
+    private float[] rudderResistance = new float[] { 0.0f, 0.15f, 0.5f, 0.65f, 1.0f };
+
     private int speedSelected;
 
     SpawnManager spawnManager;
 
     public bool targeted = false;
+
+    GameObject surfaceTarget;
+
+    bool dead = false;
 
 
     // Start is called before the first frame update
@@ -95,13 +99,23 @@ public class EnemyFrigateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Buoyancy();
+        Maneuvering();
+    }
+
+    //Additional Functions
+    private void Buoyancy()
+    {
         draught = oceanManager.transform.position.y - enemyFrigateRb.transform.position.y;
 
         if (enemyFrigateRb.transform.position.y <= oceanManager.transform.position.y)
         {
             enemyFrigateRb.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
         }
+    }
 
+    private void Maneuvering()
+    {
         //maneuvering
         rangeToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
 
@@ -112,19 +126,19 @@ public class EnemyFrigateManager : MonoBehaviour
 
             if (transform.rotation != heading && transform.position.x < playerController.transform.position.x)
             {
-                transform.Rotate(Vector3.up * Time.deltaTime * turningForce);
+                transform.Rotate(Vector3.up * Time.deltaTime * turningForce * StartMenuController.enemyTurning);
                 enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
             }
 
             else if (transform.rotation != heading && transform.position.x > playerController.transform.position.x)
             {
-                transform.Rotate(Vector3.down * Time.deltaTime * turningForce);
+                transform.Rotate(Vector3.down * Time.deltaTime * turningForce * StartMenuController.enemyTurning);
                 enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
             }
 
             else if (transform.rotation != heading && transform.position.x == playerController.transform.position.x && transform.position.z != playerController.transform.position.z)
             {
-                transform.Rotate(Vector3.up * Time.deltaTime * turningForce);
+                transform.Rotate(Vector3.up * Time.deltaTime * turningForce * StartMenuController.enemyTurning);
                 enemyFrigateRb.AddRelativeForce(Vector3.forward * Time.deltaTime * speed[4], ForceMode.Impulse);
             }
 
@@ -157,10 +171,8 @@ public class EnemyFrigateManager : MonoBehaviour
         }
 
         fire = Random.Range(0, 2);
-
     }
 
-    //Additional Functions
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "MainGunProjectile")
@@ -169,8 +181,9 @@ public class EnemyFrigateManager : MonoBehaviour
             Destroy(collision.gameObject);
             health -= gunHit;
 
-            if (health < 1.0f)
+            if (health < 1.0f && dead == false)
             {
+                dead = true;
                 DestructionExplosions();
             }
         }
@@ -182,8 +195,9 @@ public class EnemyFrigateManager : MonoBehaviour
             Instantiate(missileExplosion, position, missileExplosion.transform.rotation);
             health -= missileHit;
 
-            if (health < 1.0f)
+            if (health < 1.0f && dead == false)
             {
+                dead = true;
                 DestructionExplosions();
             }
         }
@@ -195,17 +209,17 @@ public class EnemyFrigateManager : MonoBehaviour
             Instantiate(ciwsHit, position, ciwsHit.transform.rotation);
             health -= ciwsImpact;
 
-            if (health < 1.0f)
+            if (health < 1.0f && dead == false)
             {
+                dead = true;
                 DestructionExplosions();
             }
         }
-
     }
 
     async private void DestructionExplosions()
     {
-        if (health < 1.0f)
+        if (health < 1.0f && dead == true)
         {
             Instantiate(destructionExplosion, explosionpt1.transform.position, destructionExplosion.transform.rotation);
             Instantiate(destructionExplosion, explosionpt2.transform.position, destructionExplosion.transform.rotation);
@@ -221,7 +235,7 @@ public class EnemyFrigateManager : MonoBehaviour
             playerController.score += 10;
             spawnManager.SpawnEnemyShip();
             await Task.Delay(5000);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             
         }
     }

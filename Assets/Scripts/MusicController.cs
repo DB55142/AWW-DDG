@@ -5,8 +5,6 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     //Class Variables
-    AudioSource intromusic;
-
 
     //Awake Function
     private void Awake()

@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     public ParticleSystem ciwsHit;
 
-    private float health = 100;
+    public float health = 100;
 
     private float gunImpact = 20.0f;
 
@@ -141,24 +141,57 @@ public class PlayerController : MonoBehaviour
 
         returnToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
         exitGameButton.onClick.AddListener(ExitGame);
+
         DisplayHighScore();
 
         battleMusic = GetComponent<AudioSource>();
 
         score = 0;
 
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        scoreText.text = "SCORE: " + score;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
 
-        highScoreText.text = "HIGH SCORE: " + highscore;
+        DisplayScores();
 
         shipRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
 
+        CheckGameOver();
+        HullIndicatorFunctionality();
+
+        if (health <= 0)
+        {
+            health = 0;
+        }
+
+        Buoyancy();
+
+        Maneuvering();
+
+        HUDFunctionality();
+
+        ShipWake();
+
+        DestructionExplosions();
+    }
+
+    //Additional Classes
+    [Serializable]
+    public class SaveScore
+    {
+        public int newHighScore;
+    }
+
+    //Additional Functions
+    private void CheckGameOver()
+    {
         if (gameOver)
         {
             battleMusic.Stop();
@@ -222,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
             else
             {
-                highScoreCeleText.gameObject.SetActive(false); 
+                highScoreCeleText.gameObject.SetActive(false);
             }
 
             mainCameraCentre.transform.DetachChildren();
@@ -237,14 +270,11 @@ public class PlayerController : MonoBehaviour
             exitGameButton.gameObject.SetActive(false);
             Time.timeScale = 1;
         }
+    }
 
-        if (health <= 0)
-        {
-            health = 0;
-        }
-
+    private void HullIndicatorFunctionality()
+    {
         hullStatus.text = "HULL: " + health + "%";
-
 
         if (health >= 75)
         {
@@ -260,20 +290,20 @@ public class PlayerController : MonoBehaviour
         {
             hullStatus.color = Color.red;
         }
+    }
 
-
+    private void Buoyancy()
+    {
         draught = ocean.transform.position.y - playerHullRigidBody.transform.position.y;
 
         if (playerHullRigidBody.transform.position.y <= ocean.transform.position.y)
         {
             playerHullRigidBody.AddForce((Vector3.up * Time.deltaTime * buoyancyForce) * draught, ForceMode.Impulse);
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-        }
-
+    private void Maneuvering()
+    {
         if (Input.GetKeyUp(KeyCode.W))
         {
             if (presetSelected < presetSpeedActual.Length - 1)
@@ -307,7 +337,7 @@ public class PlayerController : MonoBehaviour
         {
             if (rudderAngleSelected > 0)
             {
-                rudderAngleSelected -= 1;   
+                rudderAngleSelected -= 1;
             }
 
             else
@@ -315,14 +345,21 @@ public class PlayerController : MonoBehaviour
                 return;
             }
         }
-            
+
+        playerHullRigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
+
+        playerHullRigidBody.transform.Rotate((Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]) * rotationSpeed);
+    }
+
+    private void HUDFunctionality()
+    {
         speedTitle.text = "SPEED:";
 
         speedIndicator.text = presetSpeeds[presetSelected];
 
         rudderAngleIndicator.value = rudderAngleIndicatorValue[rudderAngleSelected];
 
-        
+
         if (transform.rotation.eulerAngles.y < 10.0f)
         {
             courseRepeater.text = "00" + Convert.ToString(Math.Round(transform.rotation.eulerAngles.y, 1)) + "°";
@@ -338,10 +375,6 @@ public class PlayerController : MonoBehaviour
             courseRepeater.text = Convert.ToString(Math.Round(transform.rotation.eulerAngles.y, 1)) + "°";
         }
 
-
-
-
-
         if (rudderAngleIndicator.value < 0.5f)
         {
             rudderAngleIndicator.image.color = Color.red;
@@ -355,54 +388,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             rudderAngleIndicator.image.color = Color.black;
-        }
-
-       playerHullRigidBody.AddRelativeForce(Vector3.forward * Time.deltaTime * presetSpeedActual[presetSelected], ForceMode.Impulse);
-
-       playerHullRigidBody.transform.Rotate((Vector3.up * Time.deltaTime * rudderInput[rudderAngleSelected] * rudderResistance[presetSelected]) * rotationSpeed);
-
-       
-
-
-        var wake = playerWake.velocityOverLifetime;
-        wake.z = presetSpeedWake[presetSelected];
-        playerWake.startLifetime = presetSpeedWakeLife[presetSelected];
-
-        if (Input.GetKeyUp(KeyCode.KeypadEnter))
-        {
-            if (playerGunManual == false)
-            {
-                playerGunManual = true;
-            }
-
-            else
-            {
-                playerGunManual = false;
-            }
-        }
-
-
-        if (playerGunManual == true)
-        {
-            if (Input.GetKey(KeyCode.Keypad4))
-            {
-                playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
-            }
-
-            else if (Input.GetKey(KeyCode.Keypad6))
-            {
-                playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
-            }
-
-            else if (Input.GetKey(KeyCode.Keypad8))
-            {
-                playerGunVertical.transform.Rotate(Vector3.left * Time.deltaTime * rotateSpeed);
-            }
-
-            else if (Input.GetKey(KeyCode.Keypad2))
-            {
-                playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
-            }
         }
 
         if (!playerGunManual)
@@ -440,18 +425,54 @@ public class PlayerController : MonoBehaviour
             missileMode.text = "ENABLED";
             missileButton.image.color = Color.green;
         }
-
-        DestructionExplosions();
     }
 
-    //Additional Classes
-    [Serializable]
-    public class SaveScore
+    private void ShipWake()
     {
-        public int newHighScore;
+        var wake = playerWake.velocityOverLifetime;
+        wake.z = presetSpeedWake[presetSelected];
+        playerWake.startLifetime = presetSpeedWakeLife[presetSelected];
     }
 
-    //Additional Functions
+    private void GunOperation()
+    {
+        if (Input.GetKeyUp(KeyCode.KeypadEnter))
+        {
+            if (playerGunManual == false)
+            {
+                playerGunManual = true;
+            }
+
+            else
+            {
+                playerGunManual = false;
+            }
+        }
+
+        if (playerGunManual == true)
+        {
+            if (Input.GetKey(KeyCode.Keypad4))
+            {
+                playerGun.transform.Rotate(Vector3.down * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad6))
+            {
+                playerGun.transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad8))
+            {
+                playerGunVertical.transform.Rotate(Vector3.left * Time.deltaTime * rotateSpeed);
+            }
+
+            else if (Input.GetKey(KeyCode.Keypad2))
+            {
+                playerGunVertical.transform.Rotate(Vector3.right * Time.deltaTime * rotateSpeed);
+            }
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "EnemyGunProjectile")
@@ -508,7 +529,6 @@ public class PlayerController : MonoBehaviour
                 Instantiate(destructionExplosion, explosionpt6.transform.position, destructionExplosion.transform.rotation);
             }
 
-
             buoyancyForce = 0;
 
             gameOver = true;
@@ -557,5 +577,12 @@ public class PlayerController : MonoBehaviour
     {
         await Task.Delay(9000);
         Time.timeScale = 0;
+    }
+
+    private void DisplayScores()
+    {
+        scoreText.text = "SCORE: " + score;
+
+        highScoreText.text = "HIGH SCORE: " + highscore;
     }
 }

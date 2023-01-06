@@ -28,10 +28,12 @@ public class CameraController : MonoBehaviour
         playerController= GameObject.Find("Player").GetComponent<PlayerController>();
         ciwsController = GameObject.Find ("CIWSBody").GetComponent<CIWSController>();
         playerShip = GameObject.Find("Player");
+
         mainCamera.enabled = true;
         gunCamera.enabled = true;
         ciwsCamera.enabled = true;
         radarCamera.enabled = true;
+
         mainCamera.gameObject.SetActive(true);
         gunCamera.gameObject.SetActive(false);
         ciwsCamera.gameObject.SetActive(false);
@@ -49,27 +51,20 @@ public class CameraController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             turnCamera.x += Input.GetAxis("Mouse X") * sensitivity;
-
             turnCamera.y += Input.GetAxis("Mouse Y") * sensitivity;
-
             turnCamera.y = Mathf.Clamp(turnCamera.y, -3.0f, 90.0f);
 
-
             transform.localRotation = Quaternion.Euler(turnCamera.y, turnCamera.x, 0);
-
-
             
-            mainCamera.fieldOfView -= zoom;
-
-            if (playerController.gameOver)
-            {
-                mainCamera.gameObject.SetActive(true);
-                gunCamera.gameObject.SetActive(false);
-                ciwsCamera.gameObject.SetActive(false);
-            }
-            
+            mainCamera.fieldOfView -= zoom;        
         }
 
+        if (playerController.gameOver)
+        {
+            mainCamera.gameObject.SetActive(true);
+            gunCamera.gameObject.SetActive(false);
+            ciwsCamera.gameObject.SetActive(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.F1))
         {

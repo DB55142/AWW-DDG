@@ -3220,7 +3220,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -3380,7 +3380,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 0, y: 1}
+    range: {x: 1, y: 5}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -8032,7 +8032,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -8192,7 +8192,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 0, y: 1}
+    range: {x: 1, y: 5}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -12844,7 +12844,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -13004,7 +13004,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 0, y: 1}
+    range: {x: 1, y: 5}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -14605,7 +14605,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 7.76
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -17656,7 +17656,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -17816,7 +17816,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    range: {x: 0, y: 1}
+    range: {x: 1, y: 5}
     separateAxes: 0
   RotationBySpeedModule:
     enabled: 0
@@ -19455,11 +19455,12 @@ MonoBehaviour:
   playerGun: {fileID: 4732401914352754038}
   playerGunVertical: {fileID: 4732401914113241775}
   playerGunManual: 0
-  buoyancyForce: 5000
+  buoyancyForce: 7000
   rotationSpeed: 0.1
   gunHit: {fileID: 8787009213267859713, guid: 2d81ad8fc3c48314fbdf14d554474a2e, type: 3}
   missileHit: {fileID: 3133737210156086717, guid: 3ca1e6a435cabb44384842ae1ddecc37, type: 3}
   ciwsHit: {fileID: 2927378923021612409, guid: 28707f3a3a0c3414091462172bbb3b04, type: 3}
+  health: 100
   explosionpt1: {fileID: 4732401914059508716}
   explosionpt2: {fileID: 4732401914545619665}
   explosionpt3: {fileID: 4732401914189425686}

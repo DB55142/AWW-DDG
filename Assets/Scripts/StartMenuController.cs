@@ -26,8 +26,6 @@ public class StartMenuController : MonoBehaviour
 
     public Button exitGame;
 
-
-
     public TMP_InputField numbOfEnemies;
 
     public static int enemies;
@@ -37,6 +35,8 @@ public class StartMenuController : MonoBehaviour
     public static int gunFiringRate;
 
     public static int courseChangeRate;
+
+    public static float enemyTurning;
 
     GameObject musicBox;
 
@@ -49,38 +49,13 @@ public class StartMenuController : MonoBehaviour
         mediumDifficulty.onClick.AddListener(MediumDifficulty);
         highDifficulty.onClick.AddListener(HighDifficulty);
         exitGame.onClick.AddListener(ExitGame);
-        musicBox = GameObject.FindGameObjectWithTag("IntroMusic");
-
-        if (musicBox != null)
-        {
-            Debug.Log("Found it");
-        }
-    
+        musicBox = GameObject.FindGameObjectWithTag("IntroMusic");   
     }
 
     //Update function is called once every frame
     private void Update()
     {
-        if (firingRate == 25)
-        {
-            easyDifficulty.image.color = Color.green;
-            mediumDifficulty.image.color = Color.white;
-            highDifficulty.image.color = Color.white;
-        }
-
-        if (firingRate == 20)
-        {
-            easyDifficulty.image.color = Color.white;
-            mediumDifficulty.image.color = Color.yellow;
-            highDifficulty.image.color = Color.white;
-        }
-
-        if (firingRate == 15)
-        {
-            easyDifficulty.image.color = Color.white;
-            mediumDifficulty.image.color = Color.white;
-            highDifficulty.image.color = Color.red;
-        }
+        ButtonColours();
     }
 
     //Additional Classes
@@ -100,11 +75,7 @@ public class StartMenuController : MonoBehaviour
             await Task.Delay(500);
             numbOfEnemies.image.color = Color.white;
         }
-        
-
     }
-
-
 
     private void Help()
     {
@@ -133,6 +104,7 @@ public class StartMenuController : MonoBehaviour
         firingRate = 25;
         gunFiringRate = 15;
         courseChangeRate = 60;
+        enemyTurning = 0.4f;
     }
 
     public void MediumDifficulty()
@@ -140,6 +112,7 @@ public class StartMenuController : MonoBehaviour
         firingRate = 20;
         gunFiringRate = 10;
         courseChangeRate = 40;
+        enemyTurning = 0.65f;
     }
 
     public void HighDifficulty()
@@ -147,6 +120,31 @@ public class StartMenuController : MonoBehaviour
         firingRate = 15;
         gunFiringRate = 5;
         courseChangeRate = 30;
+        enemyTurning = 1.0f;
+    }
+
+    private void ButtonColours()
+    {
+        if (firingRate == 25)
+        {
+            easyDifficulty.image.color = Color.green;
+            mediumDifficulty.image.color = Color.white;
+            highDifficulty.image.color = Color.white;
+        }
+
+        if (firingRate == 20)
+        {
+            easyDifficulty.image.color = Color.white;
+            mediumDifficulty.image.color = Color.yellow;
+            highDifficulty.image.color = Color.white;
+        }
+
+        if (firingRate == 15)
+        {
+            easyDifficulty.image.color = Color.white;
+            mediumDifficulty.image.color = Color.white;
+            highDifficulty.image.color = Color.red;
+        }
     }
 
     public void ExitGame()

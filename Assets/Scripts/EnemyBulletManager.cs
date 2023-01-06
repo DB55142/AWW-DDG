@@ -21,12 +21,6 @@ public class EnemyBulletManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     //Additional Functions
     async void DeleteBullet()
     {
@@ -43,8 +37,6 @@ public class EnemyBulletManager : MonoBehaviour
         {
             return;
         }
-
     }
-
 }
 

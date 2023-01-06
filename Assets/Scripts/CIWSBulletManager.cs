@@ -10,23 +10,12 @@ public class CIWSBulletManager : MonoBehaviour
 
     [SerializeField] float charge;
 
-    CIWSController ciwsController;
-
     // Start is called before the first frame update
     void Start()
     {
-        ciwsController = GameObject.Find("CIWSBody").GetComponent<CIWSController>();
         bulletRb.AddRelativeForce(Vector3.forward * Time.deltaTime * charge, ForceMode.Impulse);
         Timer();
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     //Additional Functions
     async private void Timer()
@@ -42,6 +31,4 @@ public class CIWSBulletManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
 }

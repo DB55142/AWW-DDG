@@ -15,12 +15,6 @@ public class HelpManager : MonoBehaviour
         returnButton.onClick.AddListener(BackToMainMenu);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     //Additional Functions
     void BackToMainMenu()
     {

@@ -31,8 +31,6 @@ public class MissileController : MonoBehaviour
 
     PlayerController playerController;
 
-    
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +40,13 @@ public class MissileController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        WeaponSystemState();
+        WeaponSystemOperation();
+    }
+
+    //Additional Functions
+    private void WeaponSystemState()
     {
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
@@ -55,19 +60,17 @@ public class MissileController : MonoBehaviour
                 weaponState = true;
             }
         }
+    }
 
+    private void WeaponSystemOperation()
+    {
         if (weaponState == true)
         {
             if (Input.GetKeyUp(KeyCode.PageUp))
             {
                 if (missileLauncher1.transform.rotation != OpenFwd)
                 {
-                    LaunchMissile(missileLaunchPoint1, missileLauncher1, OpenFwd);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher1);
+                    LaunchMissile(missileLaunchPoint1);
                 }
             }
 
@@ -75,12 +78,7 @@ public class MissileController : MonoBehaviour
             {
                 if (missileLauncher1.transform.rotation != OpenFwd)
                 {
-                    LaunchMissile(missileLaunchPoint2, missileLauncher2, OpenFwd);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher2);
+                    LaunchMissile(missileLaunchPoint2);
                 }
             }
 
@@ -88,12 +86,7 @@ public class MissileController : MonoBehaviour
             {
                 if (missileLauncher1.transform.rotation != OpenFwd)
                 {
-                    LaunchMissile(missileLaunchPoint3, missileLauncher3, OpenFwd);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher3);
+                    LaunchMissile(missileLaunchPoint3);
                 }
             }
 
@@ -101,12 +94,7 @@ public class MissileController : MonoBehaviour
             {
                 if (missileLauncher1.transform.rotation != OpenAft)
                 {
-                    LaunchMissile(missileLaunchPoint4, missileLauncher4, OpenAft);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher4);
+                    LaunchMissile(missileLaunchPoint4);
                 }
             }
 
@@ -114,12 +102,7 @@ public class MissileController : MonoBehaviour
             {
                 if (missileLauncher1.transform.rotation != OpenAft)
                 {
-                    LaunchMissile(missileLaunchPoint5, missileLauncher5, OpenAft);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher5);
+                    LaunchMissile(missileLaunchPoint5);
                 }
             }
 
@@ -127,31 +110,14 @@ public class MissileController : MonoBehaviour
             {
                 if (missileLauncher1.transform.rotation != OpenAft)
                 {
-                    LaunchMissile(missileLaunchPoint6, missileLauncher6, OpenAft);
-                }
-
-                else
-                {
-                    CloseMissileHatch(missileLauncher6);
+                    LaunchMissile(missileLaunchPoint6);
                 }
             }
         }
-
-
-      
     }
 
-    //Additional Functions
-
-    async void LaunchMissile(GameObject missileLaunchPoint, GameObject missileLaunchHatch, Quaternion OpenAngle)
+    async void LaunchMissile(GameObject missileLaunchPoint)
     {
         Instantiate(missileProjectile, missileLaunchPoint.transform.position, missileStartPos);
-        await Task.Delay(1500);
-        missileLaunchHatch.transform.rotation = Quaternion.Lerp(missileLaunchHatch.transform.rotation, Close, 1.0f);
-    }
-
-    void CloseMissileHatch(GameObject missileLaunchHatch)
-    {
-        missileLauncher1.transform.rotation = Close;
     }
 }

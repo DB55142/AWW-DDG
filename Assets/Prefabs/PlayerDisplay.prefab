@@ -652,6 +652,7 @@ MonoBehaviour:
   detectionRange: 1535
   rotationSpeed: 100
   autoMode: 0
+  safeToFire: 0
   ciwsRadarRange: {fileID: 0}
   ciwsBullet: {fileID: 7540299582323337213, guid: e83abdae8272fec4eb4f8ea49228e4b7, type: 3}
   ciwsFiringPoint: {fileID: 3787054776397389146}
@@ -1264,6 +1265,7 @@ MonoBehaviour:
   highScoreCeleText: {fileID: 0}
   defeatMusicBox: {fileID: 0}
   victoryMusicBox: {fileID: 0}
+  mainCameraCentre: {fileID: 0}
 --- !u!1 &3536966458813586825
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,7 +2417,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -7582,7 +7584,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -12553,7 +12555,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -17491,7 +17493,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1

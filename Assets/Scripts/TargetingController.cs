@@ -6,32 +6,20 @@ public class TargetingController : MonoBehaviour
 {
     //Class Variables
     public Camera mainCamera;
+
     public GameObject targetLock;
     public GameObject targetShip;
 
     PlayerController playerController;
 
-    public Vector3 targetCoords;
     private Vector3 direction;
-
-    public GameObject point1;
-
-    public GameObject point2;
-
 
     SpawnManager spawnManager;
 
     public float gunAutoRange;
 
     bool inRange = false;
-
     bool lockedOn = false;
-
-    bool ownShip = true;
-
-    float xAngle;
-
-    
 
     // Start is called before the first frame update
     void Start()
@@ -43,32 +31,44 @@ public class TargetingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AcquireTarget();
 
+        VerifyRange();
 
+        TrainGun();
+
+        FireGun();
+    }
+
+    //Additional Functions
+    private void AcquireTarget()
+    {
         Ray startPoint = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-
 
         if (Physics.Raycast(startPoint, out RaycastHit target) && Input.GetMouseButtonDown(1))
         {
             if (target.collider.gameObject.tag == "Enemy" && target.collider.gameObject.GetComponent<EnemyFrigateManager>().targeted == false)
             {
                 Instantiate(targetLock, target.transform.position, targetLock.transform.rotation);
-                targetCoords = target.transform.position;
                 targetShip = target.collider.gameObject;
                 targetShip.GetComponent<EnemyFrigateManager>().targeted = true;
             }
         }
+    }
 
+    private void VerifyRange()
+    {
         if (targetShip != null)
         {
-            if (Vector3.Distance(playerController.transform.position, target.transform.position) <= gunAutoRange)
+            if (Vector3.Distance(playerController.transform.position, targetShip.transform.position) <= gunAutoRange)
             {
                 inRange = true;
-                Debug.Log("In range");
             }
         }
+    }
 
+    private void TrainGun()
+    {
         if (playerController.playerGunManual == false && targetShip != null)
         {
             direction = (targetShip.transform.position) - playerController.playerGun.transform.position;
@@ -79,35 +79,11 @@ public class TargetingController : MonoBehaviour
             playerController.playerGunVertical.transform.rotation = gunTargetFinalVertical;
             lockedOn = true;
         }
+    }
 
-        xAngle = playerController.playerGun.transform.rotation.eulerAngles.x;
-
-
-
-        if (playerController.playerGunManual == false || playerController.playerGunManual == true)
-        {
-            if (xAngle >= -30 && xAngle <= 30)
-            {
-                ownShip = true;
-            }
-
-            if (xAngle >= -214 && xAngle <= -146)
-            {
-                ownShip = true;
-            }
-
-            if (xAngle >= 140 && xAngle >= 214)
-            {
-                ownShip = true;
-            }
-
-            else
-            {
-                ownShip = false;
-            }
-        }
-
-        if (inRange == true && lockedOn == true && playerController.playerGunManual == false && ownShip == false)
+    private void FireGun()
+    {
+        if (inRange == true && lockedOn == true && playerController.playerGunManual == false)
         {
             spawnManager.GunAutoFire();
         }
